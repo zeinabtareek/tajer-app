@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>650620862352-ovpo92p0o9ktn6avkkqrp6v4jgl78m4d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.650620862352-ovpo92p0o9ktn6avkkqrp6v4jgl78m4d</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>650620862352-np9sih0j378b1umh26os2n9i98g90uod.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBJ8D6_OY-a4Lk9kls4wglkdBtIc7-SpXk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>650620862352</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.aroodh.aroodhapp.tajer</string>
+	<key>PROJECT_ID</key>
+	<string>offers-and-awards</string>
+	<key>STORAGE_BUCKET</key>
+	<string>offers-and-awards.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:650620862352:ios:f61cfdfecdf067bb49bd15</string>
+</dict>
+</plist>
