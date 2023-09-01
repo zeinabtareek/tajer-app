@@ -43,432 +43,505 @@ class OrdersScreen extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: Obx(
             () => controller.state == ViewState.busy
-                ?   Center(
+                ? Center(
                     child: CupertinoActivityIndicator(
                       color: K.primaryColor,
                     ),
                   )
                 : Stack(
-              // alignment: AlignmentDirectional.center,
-                children: [
-                    Opacity(
-                      opacity: controller.showOverlay.value ? 0.3 : 1.0,
-                      child: Column(
-                        children: [
-                          CustomAddressTextField(
-                            width: MediaQuery.of(context).size.width / 1.3.w,
-                            hintText: "ابحث عن الفاتورة".tr,
-                            labelText: "ابحث عن الفاتورة ".tr,
-                            onChanged: (String v) {
-                              controller.searchController.value = v;
-                            },
-                          ),
-                          K.sizedboxH,
-                          K.sizedboxH,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // alignment: AlignmentDirectional.center,
+                    children: [
+                        Opacity(
+                          opacity: controller.showOverlay.value ? 0.3 : 1.0,
+                          child: Column(
                             children: [
-                              for (final text in controller.texts)
-                                ClickableText(text: text),
-                            ],
-                          ),
-                          K.sizedboxH,
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: controller.orders.length,
-                              itemBuilder: (context, index) {
-                                // final order = controller.filteredOrders[index];
-                                return GestureDetector(
-                                  onTap: (){
-                                    Get.to(() =>  BillScreen(
-                                      order: controller.orders[index],
-                                    ));
-                                  },
-                                  child: CustomOrdersCard(
-                                      isAccepted:controller.selectedText.value == 'طلبات جديدة'?false:true,
-                                      onAccept: () async{
-
-                                    await    controller.acceptOrder( id:controller.orders[index].id!.toInt(),con: context);
-
-
+                              CustomAddressTextField(
+                                width:
+                                    MediaQuery.of(context).size.width / 1.3.w,
+                                hintText: "ابحث عن الفاتورة".tr,
+                                labelText: "ابحث عن الفاتورة ".tr,
+                                onSubmitted: (v) async {
+                                  controller.searchController.value = v;
+                                  await controller.searchOrder();
+                                },
+                                onChanged: (String) {},
+                              ),
+                              K.sizedboxH,
+                              K.sizedboxH,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  for (final text in controller.texts)
+                                    ClickableText(text: text),
+                                ],
+                              ),
+                              K.sizedboxH,
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: controller.orders.length,
+                                  itemBuilder: (context, index) {
+                                    // final order = controller.filteredOrders[index];
+                                    return GestureDetector(
+                                      onTap: () async {
+                                     await   controller.getOrder(
+                                            id: controller.orders[index].id);
+                                     await    Get.to(() => BillScreen(
+                                              order: controller.orderById,
+                                            ));
                                       },
-                                      clientName:
-                                          controller.orders[index].clientName,
-                                      invoicesCount: controller
-                                          .orders[index].invoicesCount
-                                          .toString(),
-                                      total: controller.orders[index].total
-                                          .toString(),
-                                      totalBefore: controller
-                                          .orders[index].totalBefore
-                                          .toString(),
-                                      icon: GestureDetector(
-                                        child: const Icon(
-                                          Icons.more_vert,
-                                          size: 20,
-                                        ),
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return Directionality(
-                                                textDirection: TextDirection.rtl,
-                                                child: AlertDialog(
-                                                  shape:
-                                                      const RoundedRectangleBorder(
+                                      child: CustomOrdersCard(
+                                          isAccepted:
+                                              controller.selectedText.value ==
+                                                      'طلبات جديدة'
+                                                  ? false
+                                                  : true,
+                                          onAccept: () async {
+                                            await controller.acceptOrder(
+                                                id: controller.orders[index].id!
+                                                    .toInt(),
+                                                con: context);
+                                          },
+                                          clientName: controller
+                                              .orders[index].clientName,
+                                          invoicesCount: controller
+                                              .orders[index].invoicesCount
+                                              .toString(),
+                                          total: controller.orders[index].total
+                                              .toString(),
+                                          totalBefore: controller
+                                              .orders[index].totalBefore
+                                              .toString(),
+                                          icon: GestureDetector(
+                                            child: const Icon(
+                                              Icons.more_vert,
+                                              size: 20,
+                                            ),
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return Directionality(
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    child: AlertDialog(
+                                                      shape: const RoundedRectangleBorder(
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius.circular(
                                                                       10.0))),
-                                                  content:
-                                                      Builder(builder: (context) {
-                                                    // Get available height and width of the build area of this widget.
-                                                    var height =
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            6;
-                                                        height /1.4;
+                                                      content: Builder(
+                                                          builder: (context) {
+                                                        // Get available height and width of the build area of this widget.
+                                                        var height =
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height /
+                                                                6;
+                                                        height / 1.4;
 
-                                                    return Container(
-                                                      // width: containerWidth,
-                                                      // height: containerHeight,
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: [
-                                                          controller.selectedText.value == 'طلبات مقبولة'?//'طلبات تم الالغاء'
-
-                                                          GestureDetector(
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .cancel_outlined,
-                                                                  color: K
-                                                                      .primaryColor,
-                                                                ),
-                                                                K.sizedboxW,
-                                                                Text(
-                                                                  'الغاء الطلب',
-                                                                  style: K
-                                                                      .redTextStyle,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            onTap: () async{
-
-                                                              // controller.showOverlay.value = true;
-                                                              Get.back();
-                                                              await showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context) {
-                                                                  return AlertDialog(
-                                                                    backgroundColor: Colors.transparent,
-                                                                    insetPadding: EdgeInsets.all(20),
-                                                                    contentPadding: EdgeInsets.all(10),
-                                                                    content: Container(
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(20),
-                                                                        color: Colors.black54,
-                                                                      ),
-                                                                      margin: EdgeInsets.all(10),
-                                                                      child:SingleChildScrollView(
-                                                                        child:  Column(
-                                                                          mainAxisSize: MainAxisSize.min,
-                                                                          children: [
-                                                                            Container(
-                                                                              margin: EdgeInsets.all(10),
-                                                                              // padding: EdgeInsets.all(10),
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.only(
-                                                                                  topLeft: Radius.circular(20),
-                                                                                  topRight: Radius.circular(20),
-                                                                                ),
-                                                                                // color: Colors.white,
-                                                                              ),
-                                                                              
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Container(
-                                                                                    decoration: BoxDecoration(
-                                                                                      shape: BoxShape.circle,
-                                                                                      color: Colors.white,
-                                                                                    ),
-                                                                                    child: CircleAvatar(
-                                                                                      backgroundColor: Colors.transparent,
-                                                                                      child: IconButton(
-                                                                                        icon: Icon(Icons.cancel),
-                                                                                        onPressed: () {
-                                                                                          controller.showOverlay.value = false;
-                                                                                        },
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.all(8.0),
-                                                                              child: Column(
-                                                                                children: [
-                                                                                  Directionality(
-
-                                                                                    textDirection: TextDirection.rtl,
-                                                                                    child: Container(
-                                                                                      child: CustomAddressTextField(
-                                                                                        maxLines: 10,
-                                                                                        width: MediaQuery.of(context).size.width / 1.w,
-                                                                                        hintText: " اكتب هنا  ".tr,
-                                                                                        labelText: "".tr,
-                                                                                        onChanged: (String v) {
-                                                                                          controller.notes.value = v;
-                                                                                        },
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Center(
-                                                                                    child: Button(
-                                                                                      color: Color(0xfffcf2f4),
-                                                                                      text: 'الغاء الطلب'.tr,
-                                                                                      size: MediaQuery.of(context).size.width / 1.5.w,
-                                                                                      height: MediaQuery.of(context).size.width / 9.h,
-                                                                                      isFramed: true,
-                                                                                      fontSize: 22.sp,
-                                                                                      onPressed: () async {
-                                                                                        controller.cancelOrder(
-                                                                                          note: controller.notes.value,
-                                                                                          id: controller.orders[index].id!.toInt(),
-                                                                                        );
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      )
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              );
-                                                            },
-                                                          ):
-                                                        GestureDetector(
-                                                        child:  Row(
+                                                        return Container(
+                                                          // width: containerWidth,
+                                                          // height: containerHeight,
+                                                          child: Column(
                                                             mainAxisSize:
-                                                                MainAxisSize.min,
+                                                                MainAxisSize
+                                                                    .min,
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .spaceAround,
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
                                                             children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .edit_calendar_sharp,
-                                                                color: K
-                                                                    .primaryColor,
-                                                              ),
-                                                              K.sizedboxW,
-                                                              const Text(
-                                                                  'قبول الطلب '),
+                                                              controller.selectedText
+                                                                          .value ==
+                                                                      'طلبات مقبولة'
+                                                                  ? //'طلبات تم الالغاء'
+
+                                                                  GestureDetector(
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceAround,
+                                                                        children: [
+                                                                          Icon(
+                                                                            Icons.cancel_outlined,
+                                                                            color:
+                                                                                K.primaryColor,
+                                                                          ),
+                                                                          K.sizedboxW,
+                                                                          Text(
+                                                                            'الغاء الطلب',
+                                                                            style:
+                                                                                K.redTextStyle,
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      onTap:
+                                                                          () async {
+                                                                        // controller.showOverlay.value = true;
+                                                                        Get.back();
+                                                                        await showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return AlertDialog(
+                                                                              backgroundColor: Colors.transparent,
+                                                                              insetPadding: EdgeInsets.all(20),
+                                                                              contentPadding: EdgeInsets.all(10),
+                                                                              content: Container(
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.circular(20),
+                                                                                    color: Colors.black54,
+                                                                                  ),
+                                                                                  margin: EdgeInsets.all(10),
+                                                                                  child: SingleChildScrollView(
+                                                                                    child: Column(
+                                                                                      mainAxisSize: MainAxisSize.min,
+                                                                                      children: [
+                                                                                        Container(
+                                                                                          margin: EdgeInsets.all(10),
+                                                                                          // padding: EdgeInsets.all(10),
+                                                                                          decoration: BoxDecoration(
+                                                                                            borderRadius: BorderRadius.only(
+                                                                                              topLeft: Radius.circular(20),
+                                                                                              topRight: Radius.circular(20),
+                                                                                            ),
+                                                                                            // color: Colors.white,
+                                                                                          ),
+
+                                                                                          child: Row(
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                decoration: BoxDecoration(
+                                                                                                  shape: BoxShape.circle,
+                                                                                                  color: Colors.white,
+                                                                                                ),
+                                                                                                child: CircleAvatar(
+                                                                                                  backgroundColor: Colors.transparent,
+                                                                                                  child: IconButton(
+                                                                                                    icon: Icon(Icons.cancel),
+                                                                                                    onPressed: () {
+                                                                                                      controller.showOverlay.value = false;
+                                                                                                    },
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.all(8.0),
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              Directionality(
+                                                                                                textDirection: TextDirection.rtl,
+                                                                                                child: Container(
+                                                                                                  child: CustomAddressTextField(
+                                                                                                    maxLines: 10,
+                                                                                                    width: MediaQuery.of(context).size.width / 1.w,
+                                                                                                    hintText: " اكتب هنا  ".tr,
+                                                                                                    labelText: "".tr,
+                                                                                                    onChanged: (String v) {
+                                                                                                      controller.notes.value = v;
+                                                                                                    },
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              Center(
+                                                                                                child: Button(
+                                                                                                  color: Color(0xfffcf2f4),
+                                                                                                  text: 'الغاء الطلب'.tr,
+                                                                                                  size: MediaQuery.of(context).size.width / 1.5.w,
+                                                                                                  height: MediaQuery.of(context).size.width / 9.h,
+                                                                                                  isFramed: true,
+                                                                                                  fontSize: 22.sp,
+                                                                                                  onPressed: () async {
+                                                                                                    controller.cancelOrder(
+                                                                                                      note: controller.notes.value,
+                                                                                                      id: controller.orders[index].id!.toInt(),
+                                                                                                    );
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  )),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                    )
+                                                                  : GestureDetector(
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceAround,
+                                                                        children: [
+                                                                          Icon(
+                                                                            Icons.edit_calendar_sharp,
+                                                                            color:
+                                                                                K.primaryColor,
+                                                                          ),
+                                                                          K.sizedboxW,
+                                                                          const Text(
+                                                                              'قبول الطلب '),
+                                                                        ],
+                                                                      ),
+                                                                      onTap:
+                                                                          () {
+                                                                        controller.acceptOrder(
+                                                                            id: controller.orders[index].id);
+                                                                        Get.back();
+                                                                      },
+                                                                      // K.sizedboxH,
+                                                                    )
                                                             ],
-                                                          ),onTap: () {
-                                                        controller.acceptOrder(
-                                                        id: controller
-                                                            .orders[
-                                                        index]
-                                                            .id);
-                                                        Get.back();
-                                                        },
-                                                          // K.sizedboxH,
-                                                        )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
-                                                ),
+                                                          ),
+                                                        );
+                                                      }),
+                                                    ),
+                                                  );
+                                                },
                                               );
                                             },
-                                          );
-                                        },
-                                      ),
-                                      onCancel: () async{
-                                        await showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor: Colors.transparent,
-                                            insetPadding: EdgeInsets.all(20),
-                                            contentPadding: EdgeInsets.all(10),
-                                            content: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(20),
-                                                  color: Colors.black54,
-                                                ),
-                                                margin: EdgeInsets.all(10),
-                                                child:SingleChildScrollView(
-                                                  child:  Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Container(
-                                                        margin: EdgeInsets.all(10),
-                                                        // padding: EdgeInsets.all(10),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            topLeft: Radius.circular(20),
-                                                            topRight: Radius.circular(20),
-                                                          ),
-                                                          // color: Colors.white,
-                                                        ),
-
-                                                        child: Row(
+                                          ),
+                                          onCancel: () async {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  insetPadding:
+                                                      EdgeInsets.all(20),
+                                                  contentPadding:
+                                                      EdgeInsets.all(10),
+                                                  content: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        color: Colors.black54,
+                                                      ),
+                                                      margin:
+                                                          EdgeInsets.all(10),
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             Container(
-                                                              decoration: BoxDecoration(
-                                                                shape: BoxShape.circle,
-                                                                color: Colors.white,
-                                                              ),
-                                                              child: CircleAvatar(
-                                                                backgroundColor: Colors.transparent,
-                                                                child: IconButton(
-                                                                  icon: Icon(Icons.cancel),
-                                                                  onPressed: () {
-                                                                    controller.showOverlay.value = false;
-                                                                  },
+                                                              margin: EdgeInsets
+                                                                  .all(10),
+                                                              // padding: EdgeInsets.all(10),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          20),
                                                                 ),
+                                                                // color: Colors.white,
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Column(
-                                                          children: [
-                                                            Directionality(
 
-                                                              textDirection: TextDirection.rtl,
-                                                              child: Container(
-                                                                child: CustomAddressTextField(
-                                                                  maxLines: 10,
-                                                                  width: MediaQuery.of(context).size.width / 1.w,
-                                                                  hintText: " اكتب هنا  ".tr,
-                                                                  labelText: "".tr,
-                                                                  onChanged: (String v) {
-                                                                    controller.notes.value = v;
-                                                                  },
-                                                                ),
+                                                              child: Row(
+                                                                children: [
+                                                                  Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .circle,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                    child:
+                                                                        CircleAvatar(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      child:
+                                                                          IconButton(
+                                                                        icon: Icon(
+                                                                            Icons.cancel),
+                                                                        onPressed:
+                                                                            () {
+                                                                          controller
+                                                                              .showOverlay
+                                                                              .value = false;
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
-                                                            Center(
-                                                              child: Button(
-                                                                color: Color(0xfffcf2f4),
-                                                                text: 'الغاء الطلب'.tr,
-                                                                size: MediaQuery.of(context).size.width / 1.5.w,
-                                                                height: MediaQuery.of(context).size.width / 9.h,
-                                                                isFramed: true,
-                                                                fontSize: 22.sp,
-                                                                onPressed: () async {
-                                                                  controller.cancelOrder(
-                                                                    note: controller.notes.value,
-                                                                    id: controller.orders[index].id!.toInt(),
-                                                                  );
-                                                                },
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Column(
+                                                                children: [
+                                                                  Directionality(
+                                                                    textDirection:
+                                                                        TextDirection
+                                                                            .rtl,
+                                                                    child:
+                                                                        Container(
+                                                                      child:
+                                                                          CustomAddressTextField(
+                                                                        maxLines:
+                                                                            10,
+                                                                        width: MediaQuery.of(context).size.width /
+                                                                            1.w,
+                                                                        hintText:
+                                                                            " اكتب هنا  ".tr,
+                                                                        labelText:
+                                                                            "".tr,
+                                                                        onChanged:
+                                                                            (String
+                                                                                v) {
+                                                                          controller
+                                                                              .notes
+                                                                              .value = v;
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Center(
+                                                                    child:
+                                                                        Button(
+                                                                      color: Color(
+                                                                          0xfffcf2f4),
+                                                                      text: 'الغاء الطلب'
+                                                                          .tr,
+                                                                      size: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                          1.5.w,
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width /
+                                                                          9.h,
+                                                                      isFramed:
+                                                                          true,
+                                                                      fontSize:
+                                                                          22.sp,
+                                                                      onPressed:
+                                                                          () async {
+                                                                        controller
+                                                                            .cancelOrder(
+                                                                          note: controller
+                                                                              .notes
+                                                                              .value,
+                                                                          id: controller
+                                                                              .orders[index]
+                                                                              .id!
+                                                                              .toInt(),
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           ],
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                            ),
-                                          );
-                                        },
-                                        );
-                                      }),
-                                );
-                              }),
-                        ],
-                      ),
-                    ),
-                    // if (controller.showOverlay.value)
-                      // Positioned.fill(
-                      //   bottom: 0,
-                      //   top: 0,
-                      //   child: GestureDetector(
-                      //     onTap: () {
-                      //       controller.showOverlay.value = false;
-                      //     },
-                      //     child: Container(
-                      //       color: Colors.black54,
-                      //       height: MediaQuery.of(context).size.height,
-                      //       padding: EdgeInsets.all(20),
-                      //       child: Column(
-                      //         mainAxisAlignment: MainAxisAlignment.start,
-                      //         crossAxisAlignment: CrossAxisAlignment.end,
-                      //         children: [
-                      //           Container(
-                      //             decoration: const BoxDecoration(
-                      //               shape: BoxShape.circle,
-                      //               color: Colors.white,
-                      //             ),
-                      //             child: CircleAvatar(
-                      //               backgroundColor: Colors.transparent,
-                      //               child: IconButton(
-                      //                 icon: Icon(Icons.cancel),
-                      //                 onPressed: () {
-                      //                   controller.showOverlay.value = false;
-                      //                 },
-                      //               ),
-                      //             ),
-                      //           ),
-                      //           K.sizedboxH,
-                      //           Container(
-                      //
-                      //             child: CustomAddressTextField(
-                      //               maxLines: 10,
-                      //               width:
-                      //                   MediaQuery.of(context).size.width / 1.w,
-                      //               hintText: " اكتب هنا  ".tr,
-                      //               labelText: "".tr,
-                      //               onChanged: (String v) {
-                      //                 controller.notes.value = v;
-                      //               },
-                      //             ),
-                      //           ),
-                      //           K.sizedboxH,
-                      //           K.sizedboxH,
-                      //           Center(
-                      //             child: Button(
-                      //                 color: Color(0xfffcf2f4),
-                      //                 text: 'الغاء الطلب'.tr,
-                      //                 size: MediaQuery.of(context).size.width /
-                      //                     1.5.w,
-                      //                 height:
-                      //                     MediaQuery.of(context).size.width /
-                      //                         9.h,
-                      //                 isFramed: true,
-                      //                 fontSize: 22.sp,
-                      //                 onPressed: () async {
-                      //                  // controller.cancelOrder(note: controller.notes.value,id:  controller.orders[index].id!.toInt() );
-                      //                 }),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                  ]),
+                                                      )),
+                                                );
+                                              },
+                                            );
+                                          }),
+                                    );
+                                  }),
+                            ],
+                          ),
+                        ),
+                        // if (controller.showOverlay.value)
+                        // Positioned.fill(
+                        //   bottom: 0,
+                        //   top: 0,
+                        //   child: GestureDetector(
+                        //     onTap: () {
+                        //       controller.showOverlay.value = false;
+                        //     },
+                        //     child: Container(
+                        //       color: Colors.black54,
+                        //       height: MediaQuery.of(context).size.height,
+                        //       padding: EdgeInsets.all(20),
+                        //       child: Column(
+                        //         mainAxisAlignment: MainAxisAlignment.start,
+                        //         crossAxisAlignment: CrossAxisAlignment.end,
+                        //         children: [
+                        //           Container(
+                        //             decoration: const BoxDecoration(
+                        //               shape: BoxShape.circle,
+                        //               color: Colors.white,
+                        //             ),
+                        //             child: CircleAvatar(
+                        //               backgroundColor: Colors.transparent,
+                        //               child: IconButton(
+                        //                 icon: Icon(Icons.cancel),
+                        //                 onPressed: () {
+                        //                   controller.showOverlay.value = false;
+                        //                 },
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           K.sizedboxH,
+                        //           Container(
+                        //
+                        //             child: CustomAddressTextField(
+                        //               maxLines: 10,
+                        //               width:
+                        //                   MediaQuery.of(context).size.width / 1.w,
+                        //               hintText: " اكتب هنا  ".tr,
+                        //               labelText: "".tr,
+                        //               onChanged: (String v) {
+                        //                 controller.notes.value = v;
+                        //               },
+                        //             ),
+                        //           ),
+                        //           K.sizedboxH,
+                        //           K.sizedboxH,
+                        //           Center(
+                        //             child: Button(
+                        //                 color: Color(0xfffcf2f4),
+                        //                 text: 'الغاء الطلب'.tr,
+                        //                 size: MediaQuery.of(context).size.width /
+                        //                     1.5.w,
+                        //                 height:
+                        //                     MediaQuery.of(context).size.width /
+                        //                         9.h,
+                        //                 isFramed: true,
+                        //                 fontSize: 22.sp,
+                        //                 onPressed: () async {
+                        //                  // controller.cancelOrder(note: controller.notes.value,id:  controller.orders[index].id!.toInt() );
+                        //                 }),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ]),
           ),
         )));
   }

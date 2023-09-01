@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tajer/model/order_details_model.dart';
 import 'package:tajer/model/order_model.dart';
 import 'package:tajer/screens/bill_screen/controller/bill_controller.dart';
 
@@ -12,10 +13,12 @@ import '../home_screen/home_screen.dart';
 
 class BillScreen extends StatelessWidget {
   const BillScreen({Key? key, this.order}) : super(key: key);
-  final Orders? order;
+  final OrderDetailsModel? order;
 
   @override
   Widget build(BuildContext context) {
+    double total = 0;
+
     final controller = Get.put(BillController());
     return Scaffold(
       appBar: AppBar(
@@ -47,12 +50,12 @@ class BillScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      '12548795421',
+                      order?.data?.orderNumber.toString() ?? "",
                       style: K.boldBlackSmallText,
                     ),
                     K.sizedboxW,
                     Text(
-                      ' 7/3/2023',
+                      order?.data?.date ?? "",
                       style: K.boldBlackSmallText,
                     ),
                   ],
@@ -67,7 +70,7 @@ class BillScreen extends StatelessWidget {
                     ),
                     K.sizedboxW,
                     Text(
-                      ' احمد سيد',
+                      order?.data?.clientName ?? "",
                       style: K.boldBlackSmallText,
                     ),
                   ],
@@ -101,7 +104,25 @@ class BillScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      for (int i = 0; i <= 2; i++) CustomBillCard(),
+                      ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: order?.data?.invoices?.length,
+                          itemBuilder: (_, index) {
+                            controller.total.value +=
+                                order?.data?.invoices?[index].priceAfter ?? 0;
+                            return CustomBillCard(
+                              discount: order
+                                      ?.data?.invoices?[index].priceBefore
+                                      .toString() ??
+                                  "",
+                              name: order?.data?.invoices?[index].name,
+                              orderNumber:
+                                  order?.data?.invoices?[index].id.toString(),
+                              price: order?.data?.invoices?[index].priceAfter
+                                  .toString(),
+                            );
+                          }),
                     ],
                   ),
                 ),
@@ -113,10 +134,10 @@ class BillScreen extends StatelessWidget {
                       style: K.boldBlackSmallText,
                     ),
                     // K.sizedboxW,
-                    Text(
-                      ' \t\$394\t\t',
-                      style: K.boldBlackSmallText,
-                    ),
+                    Obx(() => Text(
+                          '\$ ${controller.total.value}',
+                          style: K.boldBlackSmallText,
+                        )),
                   ],
                 ),
                 Divider(
@@ -134,8 +155,7 @@ class BillScreen extends StatelessWidget {
                         isFramed: false,
                         fontSize: 22.sp,
                         onPressed: () async {
-
-                        // await  controller.acceptOrder(id: order?.id);
+                          await controller.acceptOrder(id: order?.data?.id);
                         }),
                     K.sizedboxW,
                     Button(
@@ -157,7 +177,13 @@ class BillScreen extends StatelessWidget {
 }
 
 class CustomBillCard extends StatelessWidget {
-  const CustomBillCard({Key? key}) : super(key: key);
+  const CustomBillCard(
+      {Key? key, this.orderNumber, this.name, this.discount, this.price})
+      : super(key: key);
+  final String? name;
+  final String? price;
+  final String? discount;
+  final String? orderNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -185,26 +211,26 @@ class CustomBillCard extends StatelessWidget {
           Column(
             children: [
               Text(
-                'سينابون',
+                name ?? "",
                 style: K.boldBlackSmallText,
               ),
               K.sizedboxH,
               RichText(
                 text: TextSpan(
-                  text: ' عرض 2  ',
+                  text: ' عرض $orderNumber  ',
                   style: K.redTextStyle,
                   // children:<InlineSpan> [
                   children: [
                     TextSpan(
                       // text: 'عرض 2 ',
-                      text: '\$100 ',
+                      text: '\$$discount ',
                       style: K.boldBlackSmallText,
                       // style:K.redTextStyle,
                     ),
                     // K.sizedboxW,
                     WidgetSpan(
                       child: CustomSlopText(
-                        text: '  200 ',
+                        text: '$price',
                         color: K.primaryColor,
                       ),
                     ),
@@ -219,7 +245,7 @@ class CustomBillCard extends StatelessWidget {
           ),
           K.sizedboxW,
           Text(
-            '   2  ',
+            '   $orderNumber  ',
             style: K.boldBlackSmallText,
           ),
         ],

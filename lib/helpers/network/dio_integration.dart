@@ -41,8 +41,8 @@ class DioUtilNew {
       // 'password': "123456",
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': "Bearer 74|6NBqouAivHyZU87rdeni8f8c3gpbvSaH4o0cXISJ",
-      // 'Authorization': "Bearer ${CacheHelper.getData(key: AppConstants.token)}",
+      // 'Authorization': "Bearer 74|6NBqouAivHyZU87rdeni8f8c3gpbvSaH4o0cXISJ",
+      'Authorization': "Bearer ${CacheHelper.getData(key: AppConstants.token)}",
     };
     options.queryParameters = {};
 

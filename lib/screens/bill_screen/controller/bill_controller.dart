@@ -6,9 +6,8 @@ import '../../../utils/overlay_helper.dart';
 
 class BillController extends BaseController {
   final service = OrderServices();
-
   final searchController = ''.obs;
-
+final total=0.0.obs;
   cancelOrder({int? id}) async {
     await service.cancelOrder(id: id);
     Get.back();

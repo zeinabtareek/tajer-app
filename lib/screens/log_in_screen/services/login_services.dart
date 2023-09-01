@@ -9,12 +9,15 @@ import '../../../utils/overlay_helper.dart';
 import '../../home/home.dart';
 
 class LoginServices {
-  static Future<UserModel?> login(String phone, String password,String fcm) async {
+  final dio = DioUtilNew.dio;
+
+  static Future<UserModel?> login(
+      String phone, String password, String fcm) async {
     try {
       final response = await DioUtilNew.dio!.post('/auth/login', data: {
         'phone': phone,
         'password': password,
-        'fcm_token': '1325dfsd5f4we2',
+        'fcm_token': fcm,
       });
 
       if (response.statusCode == 200) {
@@ -25,7 +28,7 @@ class LoginServices {
         CacheHelper.saveData(key: AppConstants.token, value: model.data!.token);
         DioUtilNew.setDioAgain();
         Get.offAll(() => const Home());
-
+        storeFcmToken(fcm: fcm);
         return model;
       } else {
         OverlayHelper.showErrorToast(
@@ -34,5 +37,15 @@ class LoginServices {
     } catch (error) {
       print('error: ${error.toString()}');
     }
+  }
+
+  static storeFcmToken({String? fcm}) async {
+    try {
+      final response = await DioUtilNew.dio!
+          .post(AppConstants.storeFcm, data: {"fcm_token": fcm});
+      if (response.statusCode == 200) {
+        print(response.data);
+      }
+    } catch (e) {}
   }
 }

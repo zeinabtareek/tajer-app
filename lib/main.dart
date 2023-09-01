@@ -1,12 +1,13 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:tajer/helpers/cache_helper.dart';
-import 'package:tajer/screens/home/home.dart';
-import 'package:tajer/screens/log_in_screen/login_screen.dart';
+import 'package:tajer/helpers/local_notification.dart';
+import 'package:tajer/model/notification_model.dart';
+
 import 'package:tajer/screens/splash_screen/splash_screen.dart';
 import 'package:tajer/utils/app_constants.dart';
 import 'constants/style.dart';
@@ -14,18 +15,41 @@ import 'helpers/get_di.dart' as di;
 import 'package:firebase_core/firebase_core.dart';
 
 import 'model/reprt_model.dart';
+
+NotificationService notificationService = NotificationService();
+
+Future<void> messageHandler(RemoteMessage message) async {
+  NotificationModel notificationMessage =
+      NotificationModel.fromJson(message.data);
+  notificationService.showNotification(
+      1, notificationMessage.title!, notificationMessage.message!, "1");
+  print('notification from background : ${notificationMessage.title}');
+}
+
+void firebaseMessagingListener() {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    NotificationModel notificationMessage =
+        NotificationModel.fromJson(message.data);
+    notificationService.showNotification(
+        1, notificationMessage.title!, notificationMessage.message!, "1");
+    print('notification from foreground : ${notificationMessage.title}');
+  });
+}
+
 main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Map<String, Map<String, String>> languages = await di.init();
+  await Firebase.initializeApp();
+  await notificationService.init();
+  FirebaseMessaging.onBackgroundMessage(messageHandler);
+  firebaseMessagingListener();
   print(CacheHelper.getData(key: AppConstants.token));
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +86,11 @@ class BarChartSample2 extends StatefulWidget {
   ReportModel reportModel;
   final isStartSearch;
 
-  BarChartSample2({super.key, required this.padding,required this.reportModel,required this.isStartSearch});
+  BarChartSample2(
+      {super.key,
+      required this.padding,
+      required this.reportModel,
+      required this.isStartSearch});
 
   final Color leftBarColor = K.primaryColor;
   final Color rightBarColor = K.semiDarkRed.withOpacity(.4);
@@ -80,19 +108,58 @@ class BarChartSample2State extends State<BarChartSample2> {
   late List<BarChartGroupData> showingBarGroups;
 
   int touchedGroupIndex = -1;
+
   @override
   void initState() {
     super.initState();
     // final dynamicValue=makeGroupData(1, 20, 20);//monday
-    final orderChart=  widget.reportModel.ordersChart;
-    final barGroup1 = !widget.isStartSearch?makeGroupData(0, 20, 20):makeGroupData(0, double.parse(orderChart!.sunday!.companyShare.toString()??'0'), double.parse(orderChart.sunday!.total.toString()??'0'));//sunday
-    final barGroup2 = !widget.isStartSearch?makeGroupData(1, 20, 20):makeGroupData(1, double.parse(orderChart!.monday!.companyShare.toString()??'0'), double.parse(orderChart.monday!.total.toString()??'0'));//monday
-    final barGroup3 = !widget.isStartSearch?makeGroupData(2, 20, 20):makeGroupData(2, double.parse(orderChart!.tuesday!.companyShare.toString()??'0'), double.parse(orderChart.tuesday!.total.toString()??'0'));//tuesday
-    final barGroup4 = !widget.isStartSearch?makeGroupData(3, 20, 20):makeGroupData(3, double.parse(orderChart!.wednesday!.companyShare.toString()??'0'), double.parse(orderChart.wednesday!.total.toString()??'0'));//wednessDay
-    final barGroup5 = !widget.isStartSearch?makeGroupData(4, 20, 20):makeGroupData(4, double.parse(orderChart!.thursday!.companyShare.toString()??'0'), double.parse(orderChart.thursday!.total.toString()??'0'));//thursDay
-    final barGroup6 = !widget.isStartSearch?makeGroupData(5, 20, 20):makeGroupData(5, double.parse(orderChart!.friday!.companyShare.toString()??'0'), double.parse(orderChart.friday!.total.toString()??'0'));//Friday
-    final barGroup7 = !widget.isStartSearch?makeGroupData(6, 20, 20):makeGroupData(6, double.parse(orderChart!.saturday!.companyShare.toString()??'0'), double.parse(orderChart.saturday!.total.toString()??'0'));//Saturday
-
+    final orderChart = widget.reportModel.ordersChart;
+    final barGroup1 = !widget.isStartSearch
+        ? makeGroupData(0, 20, 20)
+        : makeGroupData(
+            0,
+            double.parse(orderChart!.sunday!.companyShare.toString() ?? '0'),
+            double.parse(orderChart.sunday!.total.toString() ?? '0')); //sunday
+    final barGroup2 = !widget.isStartSearch
+        ? makeGroupData(1, 20, 20)
+        : makeGroupData(
+            1,
+            double.parse(orderChart!.monday!.companyShare.toString() ?? '0'),
+            double.parse(orderChart.monday!.total.toString() ?? '0')); //monday
+    final barGroup3 = !widget.isStartSearch
+        ? makeGroupData(2, 20, 20)
+        : makeGroupData(
+            2,
+            double.parse(orderChart!.tuesday!.companyShare.toString() ?? '0'),
+            double.parse(
+                orderChart.tuesday!.total.toString() ?? '0')); //tuesday
+    final barGroup4 = !widget.isStartSearch
+        ? makeGroupData(3, 20, 20)
+        : makeGroupData(
+            3,
+            double.parse(orderChart!.wednesday!.companyShare.toString() ?? '0'),
+            double.parse(
+                orderChart.wednesday!.total.toString() ?? '0')); //wednessDay
+    final barGroup5 = !widget.isStartSearch
+        ? makeGroupData(4, 20, 20)
+        : makeGroupData(
+            4,
+            double.parse(orderChart!.thursday!.companyShare.toString() ?? '0'),
+            double.parse(
+                orderChart.thursday!.total.toString() ?? '0')); //thursDay
+    final barGroup6 = !widget.isStartSearch
+        ? makeGroupData(5, 20, 20)
+        : makeGroupData(
+            5,
+            double.parse(orderChart!.friday!.companyShare.toString() ?? '0'),
+            double.parse(orderChart.friday!.total.toString() ?? '0')); //Friday
+    final barGroup7 = !widget.isStartSearch
+        ? makeGroupData(6, 20, 20)
+        : makeGroupData(
+            6,
+            double.parse(orderChart!.saturday!.companyShare.toString() ?? '0'),
+            double.parse(
+                orderChart.saturday!.total.toString() ?? '0')); //Saturday
 
     // final barGroup1 = makeGroupData(0, 1, 1);
     // final barGroup2 = makeGroupData(1, 16, 12);
@@ -129,13 +196,18 @@ class BarChartSample2State extends State<BarChartSample2> {
             Expanded(
               child: BarChart(
                 BarChartData(
-                  maxY:
-                  !widget.isStartSearch?20
-                      : double.parse(widget.reportModel.ordersChart!.max.toString())//Saturday
+                  maxY: !widget.isStartSearch
+                      ? 20
+                      : double.parse(
+                          widget.reportModel.ordersChart!.max.toString())
+                  //Saturday
                   ,
-                  minY: !widget.isStartSearch?20
-                      : double.parse(widget.reportModel.ordersChart!.min.toString())//Saturday
-        ,
+                  minY: !widget.isStartSearch
+                      ? 20
+                      : double.parse(
+                          widget.reportModel.ordersChart!.min.toString())
+                  //Saturday
+                  ,
                   // maxY: 50,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
@@ -252,7 +324,7 @@ class BarChartSample2State extends State<BarChartSample2> {
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-    final titles = <String>[ 'Su','Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St'];
+    final titles = <String>['Su', 'Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St'];
 
     final Widget text = Text(
       titles[value.toInt()],

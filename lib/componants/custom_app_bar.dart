@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,10 +8,8 @@ import '../data/data.dart';
 import '../screens/home/home_controller/home_controller.dart';
 import '../screens/notification_screen/notification_screen.dart';
 
-class CustomAppBar extends StatelessWidget implements
-
-    PreferredSizeWidget{
-    CustomAppBar({
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  CustomAppBar({
     super.key,
     required this.controller,
     required this.onTap,
@@ -20,25 +17,42 @@ class CustomAppBar extends StatelessWidget implements
 
   final HomeController controller;
   void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       title: Obx(() => Text(
-        screensWithTitle[controller.activePage.value].last,
-        style: K.boldBlackText,
-      )),
+            screensWithTitle[controller.activePage.value].last,
+            style: K.boldBlackText,
+          )),
       centerTitle: true,
       elevation: 0,
-      leading: GestureDetector(
-        onTap: (){
-
-          Get.to(()=>SupportScreen());
-        },
-        child: Icon(
-          Icons.notifications_active,
-          color: K.semiDarkRed.withOpacity(.9),
-        ),
+      leadingWidth: 150,
+      leading: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.to(() => const SupportScreen());
+            },
+            child: Icon(
+              Icons.support,
+              color: K.semiDarkRed.withOpacity(.9),
+            ),
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => const NotificationScreen());
+            },
+            child: Icon(
+              Icons.notifications_active,
+              color: K.semiDarkRed.withOpacity(.9),
+            ),
+          ),
+        ],
       ),
       actions: [
         GestureDetector(

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:tajer/controller/base_controller.dart';
 import 'package:tajer/enum/view_state.dart';
+import 'package:tajer/model/order_details_model.dart';
 import 'package:tajer/model/order_model.dart';
 import 'package:tajer/screens/orders_screen/services/order_services.dart';
 
@@ -9,8 +10,8 @@ import '../../../utils/overlay_helper.dart';
 class OrderScreenController extends BaseController {
   final service = OrderServices();
   OrderModel? order;
+  OrderDetailsModel? orderById;
   final orders = <Orders>[].obs;
-
   final List<String> texts = [
     'طلبات جديدة',
     'طلبات مقبولة',
@@ -68,11 +69,19 @@ class OrderScreenController extends BaseController {
     Get.back();
   }
 
-  acceptOrder({int? id,con}) async {
-
-   await service.acceptOrder(id: id,context: con);
+  acceptOrder({int? id, con}) async {
+    await service.acceptOrder(id: id, context: con);
 
     // await service.cancelOrder(id: id);
     // Get.back();
+  }
+
+  searchOrder() async {
+    await service.search(query: searchController.value);
+  }
+
+  getOrder({int? id}) async {
+    orderById = await service.getOrderById(id: id);
+    print(orderById!.toJson());
   }
 }

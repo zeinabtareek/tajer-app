@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tajer/componants/custom_snackbar.dart';
 import 'package:tajer/helpers/network/dio_integration.dart';
 import 'package:tajer/helpers/network/error_handler.dart';
+import 'package:tajer/model/order_details_model.dart';
 import 'package:tajer/model/order_model.dart';
 import 'package:tajer/utils/app_constants.dart';
 
@@ -11,6 +12,19 @@ import '../../../utils/overlay_helper.dart';
 
 class OrderServices {
   final dio = DioUtilNew.dio;
+
+  getOrderById({int? id}) async {
+    try {
+      final response = await dio!.get("${AppConstants.getOrderById}$id");
+      if (response.statusCode == 200) {
+        return OrderDetailsModel.fromJson(response.data);
+      }
+    } catch (e) {
+      if (e is DioExceptionType) {
+        HandleError.handleExceptionDio(e);
+      }
+    }
+  }
 
   getAllOrder({String? status}) async {
     try {
@@ -27,44 +41,54 @@ class OrderServices {
     }
   }
 
-  cancelOrder({int? id, String? note}) async {
+  search({String? query}) async {
     try {
-      final response = await dio!.put("${AppConstants.cancelOrder}$id",
-          data: {"note": note});
+      final response = await dio!
+          .post(AppConstants.search, queryParameters: {"query": query});
       if (response.statusCode == 200) {
-        // showCustomSnackBar(message: "تم الالغاء بنجاح", isError: false);
-
-        OverlayHelper.showSuccessToast(
-            Get.overlayContext!, "تم الالغاء بنجاح");
-      }  else{
-        OverlayHelper.showInfoToast(
-            Get.overlayContext!, "${response.data['message']}");
+        OrderModel order = OrderModel.fromJson(response.data);
+        return order;
       }
     } catch (e) {
       if (e is DioExceptionType) {
-
         HandleError.handleExceptionDio(e);
       }
     }
   }
 
-  acceptOrder({int? id,BuildContext? context}) async {
+  cancelOrder({int? id, String? note}) async {
+    try {
+      final response = await dio!
+          .put("${AppConstants.cancelOrder}$id", data: {"note": note});
+      if (response.statusCode == 200) {
+        // showCustomSnackBar(message: "تم الالغاء بنجاح", isError: false);
+
+        OverlayHelper.showSuccessToast(Get.overlayContext!, "تم الالغاء بنجاح");
+      } else {
+        OverlayHelper.showInfoToast(
+            Get.overlayContext!, "${response.data['message']}");
+      }
+    } catch (e) {
+      if (e is DioExceptionType) {
+        HandleError.handleExceptionDio(e);
+      }
+    }
+  }
+
+  acceptOrder({int? id, BuildContext? context}) async {
     try {
       final response = await dio!.put("${AppConstants.acceptOrder}$id");
       if (response.statusCode == 200) {
         OverlayHelper.showSuccessToast(
             Get.overlayContext!, "تم قبول الطلب بنجاح");
-      }
-      else{
+      } else {
         OverlayHelper.showInfoToast(
             Get.overlayContext!, "${response.data['message']}");
       }
     } catch (e) {
       if (e is DioExceptionType) {
-
         HandleError.handleExceptionDio(e);
       }
     }
   }
 }
-//          message: "تم قبول الطلب بنجاح",

@@ -6,28 +6,31 @@ import 'package:get/get.dart';
 import '../constants/style.dart';
 
 class CustomAddressTextField extends StatelessWidget {
-    CustomAddressTextField({
+  CustomAddressTextField({
     Key? key,
     // required this.textEditingController,
     required this.hintText,
     required this.labelText,
     required this.onChanged,
     required this.width,
-        this.maxLines,
+    this.onSubmitted,
+    this.maxLines,
   }) : super(key: key);
 
   // final TextEditingController textEditingController;
   final String hintText;
   final String labelText;
-    int ?maxLines=1;
-    void Function(String)? onChanged;
-    final width;
+  int? maxLines = 1;
+  void Function(String)? onChanged;
+  final Function(String)? onSubmitted;
+  final width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       child: TextFormField(
+          onFieldSubmitted: onSubmitted,
           // controller: textEditingController,
           cursorColor: K.mainColor,
           onChanged: onChanged,
@@ -37,24 +40,20 @@ class CustomAddressTextField extends StatelessWidget {
             }
             return null;
           },
-          maxLines: maxLines,
-          decoration:InputDecoration(
+          decoration: InputDecoration(
             hintText: hintText.toString().tr,
-            label: Text(labelText.tr,),
-            labelStyle: TextStyle(color: K.mainColor,fontSize: 16.sp),
-
-
+            label: Text(
+              labelText.tr,
+            ),
+            labelStyle: TextStyle(color: K.mainColor, fontSize: 16.sp),
             fillColor: K.lightMainColor,
             filled: true,
             isDense: true,
             contentPadding: EdgeInsets.all(22.sp),
-
-            hintStyle: TextStyle(color: K.mainColor,fontSize: 18,fontWeight: FontWeight.bold),
+            hintStyle: TextStyle(
+                color: K.mainColor, fontSize: 18, fontWeight: FontWeight.bold),
             border: OutlineInputBorder(
-              borderSide: BorderSide(
-
-                color: K.lightMainColor
-              ),
+              borderSide: BorderSide(color: K.lightMainColor),
               borderRadius: BorderRadius.circular(50.r),
             ),
             focusedBorder: OutlineInputBorder(
@@ -64,10 +63,9 @@ class CustomAddressTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(50.r),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.transparent
-                // color: K.primaryColor,
-              ),
+              borderSide: BorderSide(color: Colors.transparent
+                  // color: K.primaryColor,
+                  ),
               borderRadius: BorderRadius.circular(50.r),
             ),
             disabledBorder: OutlineInputBorder(
@@ -75,9 +73,8 @@ class CustomAddressTextField extends StatelessWidget {
                 color: K.mainColor,
               ),
               borderRadius: BorderRadius.circular(50.r),
-            ),)
-      ),
+            ),
+          )),
     );
   }
-
 }

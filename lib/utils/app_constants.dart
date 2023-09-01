@@ -1,12 +1,18 @@
 class AppConstants {
   static const String baseurl = "https://admin.offers-iq.com/provider";
+  static const String fcmUrl = "https://fcm.googleapis.com/fcm/send";
   static const String baseurlImage =
       'https://horizonswimmingpools.com/storage/';
   static const String sendMessage = '/supportChat/sendMessage';
   static const String getMessage = '/supportChat/getMessages';
+  static const String storeFcm = '/notifications/storeFcmToken';
   static const String home = '/home';
+  static const String notifications = '/notifications';
   static const String deleteMyAccount = '/auth/deleteMyAccount';
+  static const String logout = '/auth/logout';
   static const String order = '/order';
+  static const String getOrderById = '/order/';
+  static const String search = '/order/search';
   static const String cancelOrder = '/order/cancel/';
   static const String acceptOrder = '/order/accept/';
   static const String services = '/api/services';

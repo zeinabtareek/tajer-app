@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tajer/helpers/cache_helper.dart';
+import 'package:tajer/screens/log_in_screen/login_screen.dart';
 import 'package:tajer/screens/setting_screen/services/setting_services.dart';
+import 'package:tajer/screens/splash_screen/splash_screen.dart';
 import 'package:tajer/utils/app_constants.dart';
 import '../../../model/setting_model.dart';
 
@@ -124,6 +126,14 @@ class SettingsController extends GetxController {
   }
 
   delete() async {
-    await services.logOut();
+    await services.deleteAccount();
+    CacheHelper.clearData();
+    Get.offAll(() => SplashScreen());
+  }
+
+  logOut() async {
+    await services.singOut();
+    CacheHelper.clearData();
+    Get.offAll(() => LogInScreen());
   }
 }

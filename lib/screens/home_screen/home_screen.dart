@@ -2,17 +2,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tajer/enum/view_state.dart';
 import 'package:tajer/screens/orders_screen/orders_screen.dart';
-
 import '../../componants/custom_app_bar.dart';
 import '../../componants/custom_button.dart';
 import '../../constants/style.dart';
-import '../../data/data.dart';
-import '../../main.dart';
-import '../bill_screen/bill_screen.dart';
 import '../credit_screen/credit_screen.dart';
 import '../home/home_controller/home_controller.dart';
 
@@ -32,10 +27,10 @@ class HomeScreen extends StatelessWidget {
         body: Obx(
           () => controller.state == ViewState.busy
               ? Center(
-            child: CupertinoActivityIndicator(
-              color: K.primaryColor,
-            ),
-          )
+                  child: CupertinoActivityIndicator(
+                    color: K.primaryColor,
+                  ),
+                )
               : SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -108,135 +103,123 @@ class HomeScreen extends StatelessWidget {
                           style: K.boldBlackSmallText,
                         ),
                       ),
-                      AspectRatio(
-                        aspectRatio: 1.3,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Expanded(
-                                child: BarChart(
-                                  BarChartData(
-                                    maxY: 20,
-                                    barTouchData: BarTouchData(
-                                      touchTooltipData: BarTouchTooltipData(
-                                        tooltipBgColor: Colors.grey,
-                                        getTooltipItem: (a, b, c, d) => null,
-                                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: SizedBox(
+                          height: context.height / 3,
+                          child: BarChart(
+                            BarChartData(
+                              maxY: 20,
+                              barTouchData: BarTouchData(
+                                touchTooltipData: BarTouchTooltipData(
+                                  tooltipBgColor: Colors.grey,
+                                  getTooltipItem: (a, b, c, d) => null,
+                                ),
 
-                                      // touchCallback: (FlTouchEvent event, response) {
-                                      //   if (response == null || response.spot == null) {
-                                      //     setState(() {
-                                      //       touchedGroupIndex = -1;
-                                      //       showingBarGroups = List.of(rawBarGroups);
-                                      //     });
-                                      //     return;
-                                      //   }
-                                      //
-                                      //   touchedGroupIndex =
-                                      //       response.spot!.touchedBarGroupIndex;
-                                      //
-                                      //   setState(() {
-                                      //     if (!event.isInterestedForInteractions) {
-                                      //       touchedGroupIndex = -1;
-                                      //       showingBarGroups = List.of(rawBarGroups);
-                                      //       return;
-                                      //     }
-                                      //     showingBarGroups = List.of(rawBarGroups);
-                                      //     if (touchedGroupIndex != -1) {
-                                      //       var sum = 0.0;
-                                      //       for (final rod
-                                      //           in showingBarGroups[touchedGroupIndex]
-                                      //               .barRods) {
-                                      //         sum += rod.toY;
-                                      //       }
-                                      //       final avg = sum /
-                                      //           showingBarGroups[touchedGroupIndex]
-                                      //               .barRods
-                                      //               .length;
-                                      //
-                                      //       showingBarGroups[touchedGroupIndex] =
-                                      //           showingBarGroups[touchedGroupIndex]
-                                      //               .copyWith(
-                                      //         barRods: showingBarGroups[touchedGroupIndex]
-                                      //             .barRods
-                                      //             .map((rod) {
-                                      //           return rod.copyWith(
-                                      //               toY: avg, color: widget.avgColor);
-                                      //         }).toList(),
-                                      //       );
-                                      //     }
-                                      //   });
-                                      // },
-                                    ),
-                                    titlesData: FlTitlesData(
-                                      show: true,
-                                      rightTitles: AxisTitles(
-                                        sideTitles:
-                                            SideTitles(showTitles: false),
-                                      ),
-                                      topTitles: AxisTitles(
-                                        sideTitles:
-                                            SideTitles(showTitles: false),
-                                      ),
-                                      bottomTitles: AxisTitles(
-                                        sideTitles: SideTitles(
-                                          showTitles: true,
-                                          getTitlesWidget: (d, m) {
-                                            return SideTitleWidget(
-                                              axisSide: m.axisSide,
-                                              space: 16, //margin top
-                                              child: Text(
-                                                  controller.titles[d.toInt()]),
-                                            );
-                                          },
-                                          reservedSize: 42,
-                                        ),
-                                      ),
-                                      leftTitles: AxisTitles(
-                                        sideTitles: SideTitles(
-                                          showTitles: true,
-                                          reservedSize: 28,
-                                          interval: 1,
-                                          getTitlesWidget: (d, m) {
-                                            String text;
-                                            if (d == 0) {
-                                              text = '1K';
-                                            } else if (d == 10) {
-                                              text = '5K';
-                                            } else if (d == 19) {
-                                              text = '10K';
-                                            } else {
-                                              return Container();
-                                            }
-                                            return SideTitleWidget(
-                                              axisSide: m.axisSide,
-                                              space: 0,
-                                              child: Text(text,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    // color: Color(0xff7589a2),
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14,
-                                                  )),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    borderData: FlBorderData(
-                                      show: false,
-                                    ),
-                                    barGroups: controller.showingBarGroups,
-                                    gridData: FlGridData(show: false),
+                                // touchCallback: (FlTouchEvent event, response) {
+                                //   if (response == null || response.spot == null) {
+                                //     setState(() {
+                                //       touchedGroupIndex = -1;
+                                //       showingBarGroups = List.of(rawBarGroups);
+                                //     });
+                                //     return;
+                                //   }
+                                //
+                                //   touchedGroupIndex =
+                                //       response.spot!.touchedBarGroupIndex;
+                                //
+                                //   setState(() {
+                                //     if (!event.isInterestedForInteractions) {
+                                //       touchedGroupIndex = -1;
+                                //       showingBarGroups = List.of(rawBarGroups);
+                                //       return;
+                                //     }
+                                //     showingBarGroups = List.of(rawBarGroups);
+                                //     if (touchedGroupIndex != -1) {
+                                //       var sum = 0.0;
+                                //       for (final rod
+                                //           in showingBarGroups[touchedGroupIndex]
+                                //               .barRods) {
+                                //         sum += rod.toY;
+                                //       }
+                                //       final avg = sum /
+                                //           showingBarGroups[touchedGroupIndex]
+                                //               .barRods
+                                //               .length;
+                                //
+                                //       showingBarGroups[touchedGroupIndex] =
+                                //           showingBarGroups[touchedGroupIndex]
+                                //               .copyWith(
+                                //         barRods: showingBarGroups[touchedGroupIndex]
+                                //             .barRods
+                                //             .map((rod) {
+                                //           return rod.copyWith(
+                                //               toY: avg, color: widget.avgColor);
+                                //         }).toList(),
+                                //       );
+                                //     }
+                                //   });
+                                // },
+                              ),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                rightTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    getTitlesWidget: (d, m) {
+                                      return SideTitleWidget(
+                                        axisSide: m.axisSide,
+                                        space: 16, //margin top
+                                        child:
+                                            Text(controller.titles[d.toInt()]),
+                                      );
+                                    },
+                                    reservedSize: 42,
+                                  ),
+                                ),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 28,
+                                    interval: 1,
+                                    getTitlesWidget: (d, m) {
+                                      String text;
+                                      if (d == 0) {
+                                        text = '1K';
+                                      } else if (d == 10) {
+                                        text = '5K';
+                                      } else if (d == 19) {
+                                        text = '10K';
+                                      } else {
+                                        return Container();
+                                      }
+                                      return SideTitleWidget(
+                                        axisSide: m.axisSide,
+                                        space: 0,
+                                        child: Text(text,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              // color: Color(0xff7589a2),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                            )),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 12,
+                              borderData: FlBorderData(
+                                show: false,
                               ),
-                            ],
+                              barGroups: controller.showingBarGroups,
+                              gridData: FlGridData(show: false),
+                            ),
                           ),
                         ),
                       ),
@@ -253,43 +236,40 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: 3,
-                          // itemCount: controller.chart?.recentOrders?.length,
-                          itemBuilder: (ctx, index) => Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: CustomOrdersCard(
-                                onAccept: (){
-                                  // Get.to(() => BillScreen(
-                                  //   order:controller
-                                  //       .chart?.recentOrders?[index] ,
-                                  // ));
-                                },
-                                  clientName: 'ee',
-                                  // controller
-                                  //     .chart?.recentOrders?[index].clientName,
-                                  invoicesCount: 'dkkdkkd',
-                                  // controller
-                                  //     .chart?.recentOrders?[index].invoicesCount
-                                  //     .toString(),
-                                  total: 'jjj',
-                                  // controller
-                                  //     .chart?.recentOrders?[index].total
-                                  //     .toString(),
-                                  totalBefore: 'mmmm',
-                                  // controller
-                                  //     .chart?.recentOrders?[index].totalBefore
-                                  //     .toString(),
-                                  icon: GestureDetector(
-                                    child: const Icon(
-                                      Icons.more_vert,
-                                      size: 20,
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                  onCancel: () {}))),
+                      // controller.chart?.recentOrders?.isEmpty == true
+                      //     ? const SizedBox()
+                      //     : ListView.builder(
+                      //         physics: const BouncingScrollPhysics(),
+                      //         shrinkWrap: true,
+                      //
+                      //         // itemCount: 3,
+                      //         itemCount: controller.chart?.recentOrders?.length,
+                      //         itemBuilder: (ctx, index) => CustomOrdersCard(
+                      //             onAccept: () {
+                      //               // Get.to(() => BillScreen(
+                      //               //   order:controller
+                      //               //       .chart?.recentOrders?[index] ,
+                      //               // ));
+                      //             },
+                      //             clientName: controller
+                      //                 .chart?.recentOrders?[index].clientName,
+                      //             invoicesCount: controller
+                      //                 .chart?.recentOrders?[index].invoicesCount
+                      //                 .toString(),
+                      //             total: controller
+                      //                 .chart?.recentOrders?[index].total
+                      //                 .toString(),
+                      //             totalBefore: controller
+                      //                 .chart?.recentOrders?[index].totalBefore
+                      //                 .toString(),
+                      //             icon: GestureDetector(
+                      //               child: const Icon(
+                      //                 Icons.more_vert,
+                      //                 size: 20,
+                      //               ),
+                      //               onTap: () {},
+                      //             ),
+                      //             onCancel: () {})),
                     ],
                   ),
                 ),
@@ -347,11 +327,11 @@ class CustomOrdersCard extends StatelessWidget {
   final String? invoicesCount;
   final String? total;
   final String? totalBefore;
-  final bool? isAccepted ;
+  final bool? isAccepted;
 
   const CustomOrdersCard(
       {Key? key,
-       this.icon,
+      this.icon,
       this.onCancel,
       this.clientName,
       this.total,
@@ -419,36 +399,35 @@ class CustomOrdersCard extends StatelessWidget {
                   ],
                 ),
                 K.sizedboxW,
-                isAccepted ==true?  icon!:SizedBox()
+                isAccepted == true ? icon! : SizedBox()
               ],
             ),
           ),
-    // isAccepted ==false?
-    isAccepted ==true?
-    SizedBox() :
-
-         Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Button(
-                  color: K.primaryColor,
-                  text: 'قبول الطلب'.tr,
-                  size: MediaQuery.of(context).size.width / 1.5.w,
-                  height: MediaQuery.of(context).size.width / 14.h,
-                  isFramed: false,
-                  fontSize: 22.sp,
-                  onPressed: onAccept),
-              Button(
-                text: 'X'.tr,
-                size: 50,
-                color: K.darkRed,
-                height: MediaQuery.of(context).size.width / 14.h,
-                isFramed: false,
-                fontSize: 22.sp,
-                onPressed: onCancel,
-              )
-            ],
-          )
+          // isAccepted ==false?
+          isAccepted == true
+              ? SizedBox()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Button(
+                        color: K.primaryColor,
+                        text: 'قبول الطلب'.tr,
+                        size: MediaQuery.of(context).size.width / 1.5.w,
+                        height: MediaQuery.of(context).size.width / 14.h,
+                        isFramed: false,
+                        fontSize: 22.sp,
+                        onPressed: onAccept),
+                    Button(
+                      text: 'X'.tr,
+                      size: 50,
+                      color: K.darkRed,
+                      height: MediaQuery.of(context).size.width / 14.h,
+                      isFramed: false,
+                      fontSize: 22.sp,
+                      onPressed: onCancel,
+                    )
+                  ],
+                )
         ],
       ),
     );

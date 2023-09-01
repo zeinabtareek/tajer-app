@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:tajer/componants/custom_snackbar.dart';
 import 'package:tajer/helpers/network/dio_integration.dart';
 import 'package:tajer/helpers/network/error_handler.dart';
 import 'package:tajer/model/setting_model.dart';
@@ -12,9 +13,29 @@ import '../../../utils/overlay_helper.dart';
 class SettingServices {
   final dio = DioUtilNew.dio;
 
-  logOut() async {
+  deleteAccount() async {
     try {
-      final response=await dio!.delete(AppConstants.deleteMyAccount);
+      final response = await dio!.delete(AppConstants.deleteMyAccount);
+      if (response.statusCode == 200) {
+        showCustomSnackBar(isError: false, message: "تم الحذف بنجاح");
+      } else {
+        HandleError.handleException(response: response.statusCode);
+      }
+    } catch (e) {
+      if (e is DioExceptionType) {
+        HandleError.handleExceptionDio(e);
+      }
+    }
+  }
+
+  singOut() async {
+    try {
+      final response = await dio!.post(AppConstants.logout);
+      if (response.statusCode == 200) {
+        showCustomSnackBar(isError: false, message: "تم تسجيل الخروج ");
+      } else {
+        HandleError.handleException(response: response.statusCode);
+      }
     } catch (e) {
       if (e is DioExceptionType) {
         HandleError.handleExceptionDio(e);

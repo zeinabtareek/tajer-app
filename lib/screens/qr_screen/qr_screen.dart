@@ -20,7 +20,8 @@ class QrScreen extends StatefulWidget {
 class _QrScreenState extends State<QrScreen> {
   //* qr scan transaction
   bool isScanComplete = false;
-int _count=60;
+  int _count = 60;
+
   //* flash bool
   bool isFlash = false;
 
@@ -36,12 +37,12 @@ int _count=60;
       isScanComplete = false;
     });
   }
+
   // BarcodeCapture barcodeCapture = BarcodeCapture(barcodes: [], raw: null);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       // body: Stack(
       //   // mainAxisAlignment: MainAxisAlignment.center,
       //   children: [
@@ -107,33 +108,35 @@ int _count=60;
       // ),
       // ),
 
-     body: Stack(
+      body: Stack(
         children: [
-
-
-
           MobileScanner(
               // allowDuplicates: false,
               controller: controller,
               onDetect: (capture) {
-                final String? code = capture.raw;
-                debugPrint('Barcode found! $code');
                 final List<Barcode> barcodes = capture.barcodes;
-                          final Uint8List? image = capture.image;
-                          for (final barcode in barcodes) {
-                            debugPrint('Barcode found! ${barcode.rawValue}');
-                          }
-                          if (image != null) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => Image(image: MemoryImage(image)),
-                            );
-                            Future.delayed(const Duration(seconds: 5), () {
-                              Navigator.pop(context);
-                            });
-                          }
-                        }),
+                final Uint8List? image = capture.image;
 
+                for (final barcode in barcodes) {
+                  debugPrint('Barcode found! ${barcode.rawValue.toString()}');
+                }
+                // final String? code = capture.raw;
+                // debugPrint('Barcode found! $code');
+                // final List<Barcode> barcodes = capture.barcodes;
+                //           final Uint8List? image = capture.image;
+                //           for (final barcode in barcodes) {
+                //             debugPrint('Barcode found! ${barcode.rawValue}');
+                //           }
+                //           if (image != null) {
+                //             showDialog(
+                //               context: context,
+                //               builder: (context) => Image(image: MemoryImage(image)),
+                //             );
+                //             Future.delayed(const Duration(seconds: 5), () {
+                //               Navigator.pop(context);
+                //             });
+                //           }
+              }),
           QRScannerOverlay(overlayColour: Colors.black.withOpacity(0.5)),
           Positioned(
             top: 20,
@@ -141,12 +144,17 @@ int _count=60;
             left: 0,
             child: Column(
               children: [
-
-                Text(  " % ${(_count.toDouble())} في تقدم " ,style: TextStyle(color: K.whiteColor,fontWeight: FontWeight.w600,fontSize: 20.sp),),
+                Text(
+                  " % ${(_count.toDouble())} في تقدم ",
+                  style: TextStyle(
+                      color: K.whiteColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20.sp),
+                ),
                 LinearPercentIndicator(
                   width: 300,
                   lineHeight: 10.0,
-                  percent: (_count.toDouble())/100,
+                  percent: (_count.toDouble()) / 100,
                   backgroundColor: K.whiteColor,
                   progressColor: K.semiDarkRed,
                   animation: true,
@@ -173,7 +181,6 @@ int _count=60;
           ),
         ],
       ),
-
     );
   }
 }
@@ -226,7 +233,7 @@ class QRScannerOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double scanArea = (MediaQuery.of(context).size.width < 400 ||
-        MediaQuery.of(context).size.height < 400)
+            MediaQuery.of(context).size.height < 400)
         ? 200.0
         : 330.0;
     return Stack(children: [

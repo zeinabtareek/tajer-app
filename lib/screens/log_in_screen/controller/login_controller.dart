@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:tajer/helpers/cache_helper.dart';
 import 'package:tajer/model/user_model.dart';
@@ -14,7 +15,7 @@ class LoginController extends GetxController {
     var fcmToken = await CacheHelper.getData(key: AppConstants.fcmToken);
     try {
       userModel = (await LoginServices.login(
-          phoneController.value, passController.value,fcmToken))!;
+          phoneController.value, passController.value, fcmToken))!;
 
       await CacheHelper.saveData(
           key: AppConstants.token, value: userModel.data!.token.toString());
