@@ -112,49 +112,49 @@ class BarChartSample2State extends State<BarChartSample2> {
   @override
   void initState() {
     super.initState();
-    // final dynamicValue=makeGroupData(1, 20, 20);//monday
+    final dynamicValue=makeGroupData(1, 20, 20);//monday
     final orderChart = widget.reportModel.ordersChart;
     final barGroup1 = !widget.isStartSearch
-        ? makeGroupData(0, 20, 20)
+        ? makeGroupData(0, 10, 10)
         : makeGroupData(
             0,
             double.parse(orderChart!.sunday!.companyShare.toString() ?? '0'),
             double.parse(orderChart.sunday!.total.toString() ?? '0')); //sunday
     final barGroup2 = !widget.isStartSearch
-        ? makeGroupData(1, 20, 20)
+        ? makeGroupData(1, 10, 10)
         : makeGroupData(
             1,
             double.parse(orderChart!.monday!.companyShare.toString() ?? '0'),
             double.parse(orderChart.monday!.total.toString() ?? '0')); //monday
     final barGroup3 = !widget.isStartSearch
-        ? makeGroupData(2, 20, 20)
+        ? makeGroupData(2, 10, 10)
         : makeGroupData(
             2,
             double.parse(orderChart!.tuesday!.companyShare.toString() ?? '0'),
             double.parse(
                 orderChart.tuesday!.total.toString() ?? '0')); //tuesday
     final barGroup4 = !widget.isStartSearch
-        ? makeGroupData(3, 20, 20)
+        ? makeGroupData(3, 10, 10)
         : makeGroupData(
             3,
             double.parse(orderChart!.wednesday!.companyShare.toString() ?? '0'),
             double.parse(
                 orderChart.wednesday!.total.toString() ?? '0')); //wednessDay
     final barGroup5 = !widget.isStartSearch
-        ? makeGroupData(4, 20, 20)
+        ? makeGroupData(4, 10, 10)
         : makeGroupData(
             4,
             double.parse(orderChart!.thursday!.companyShare.toString() ?? '0'),
             double.parse(
                 orderChart.thursday!.total.toString() ?? '0')); //thursDay
     final barGroup6 = !widget.isStartSearch
-        ? makeGroupData(5, 20, 20)
+        ? makeGroupData(5, 10, 10)
         : makeGroupData(
             5,
             double.parse(orderChart!.friday!.companyShare.toString() ?? '0'),
             double.parse(orderChart.friday!.total.toString() ?? '0')); //Friday
     final barGroup7 = !widget.isStartSearch
-        ? makeGroupData(6, 20, 20)
+        ? makeGroupData(6, 10, 10)
         : makeGroupData(
             6,
             double.parse(orderChart!.saturday!.companyShare.toString() ?? '0'),
@@ -197,7 +197,7 @@ class BarChartSample2State extends State<BarChartSample2> {
               child: BarChart(
                 BarChartData(
                   maxY: !widget.isStartSearch
-                      ? 20
+                      ? 6
                       : double.parse(
                           widget.reportModel.ordersChart!.max.toString())
                   //Saturday

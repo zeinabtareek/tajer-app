@@ -59,6 +59,11 @@ dependencies:
   top_snackbar_flutter:
   flutter_local_notifications:
   qr_code_scanner: ^1.0.1
+#  draggable_fab: ^0.1.1
+#  gpt_draggable_fab: ^0.0.2
+  cached_network_image: ^3.0.0
+  google_maps_flutter:
+  geocoding:
   intl:
 dev_dependencies:
   flutter_test:

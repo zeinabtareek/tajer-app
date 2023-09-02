@@ -5,21 +5,25 @@ import 'package:tajer/model/order_details_model.dart';
 import 'package:tajer/model/order_model.dart';
 import 'package:tajer/screens/bill_screen/controller/bill_controller.dart';
 
+import '../../componants/custom_bill_card.dart';
 import '../../componants/custom_button.dart';
 import '../../componants/custom_text_field.dart';
+import '../../componants/location_map_view.dart';
 import '../../constants/style.dart';
 import '../../utils/overlay_helper.dart';
 import '../home_screen/home_screen.dart';
 
 class BillScreen extends StatelessWidget {
-  const BillScreen({Key? key, this.order}) : super(key: key);
+    BillScreen({Key? key, this.order,required this.total}) : super(key: key);
   final OrderDetailsModel? order;
+    RxDouble  total=0.0.obs;
 
   @override
   Widget build(BuildContext context) {
-    double total = 0;
+    // double total = 0;
 
     final controller = Get.put(BillController());
+   final dateTime= DateTime.parse(order?.data?.date??'');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -55,9 +59,13 @@ class BillScreen extends StatelessWidget {
                     ),
                     K.sizedboxW,
                     Text(
-                      order?.data?.date ?? "",
-                      style: K.boldBlackSmallText,
+                      "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}"
+                      ,style: K.boldBlackSmallText,
                     ),
+                    // Text(
+                    //   order?.data?.date ?? "",
+                    //   style: K.boldBlackSmallText,
+                    // ),
                   ],
                 ),
                 K.sizedboxH,
@@ -75,22 +83,37 @@ class BillScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Image.asset('assets/images/map.png'),
+                Container(
+                  height: MediaQuery.of(context).size.height/2.h,
+                  child: LocationMapView(latitude: double.parse(order?.data?.clientLatitude.toString()??'0'),
+                    longitude: double.parse(order?.data?.clientLongitude.toString()??'0'),
+                      address:''
+                  ),
+                ),
+
+                // Image.asset('assets/images/map.png'),
                 K.sizedboxH,
                 Padding(
                   padding: EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      Center(
-                        child: CustomAddressTextField(
+                      order?.data?.clientLocation!=null? Center(
+                        child:Container(
+                          decoration: K.boxDecorationLightGrey,
+                          padding: EdgeInsets.all(8),
                           width: MediaQuery.of(context).size.width / 1.3.w,
-                          hintText: " ".tr,
-                          labelText: "ابحث ".tr,
-                          onChanged: (String v) {
-                            controller.searchController.value = v;
-                          },
-                        ),
-                      ),
+                          // height: 50.h,
+                          child: Center(child: Text('  ${order?.data?.clientLocation.toString()}'??'')),
+                        )
+                        // CustomAddressTextField(
+                        //   width: MediaQuery.of(context).size.width / 1.3.w,
+                        //   hintText: " ".tr,
+                        //   labelText: "ابحث ".tr,
+                        //   onChanged: (String v) {
+                        //     controller.searchController.value = v;
+                        //   },
+                        // ),
+                      ):SizedBox(),
                       K.sizedboxH,
                       Row(
                         children: [
@@ -104,53 +127,93 @@ class BillScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+
                       ListView.builder(
                           physics: BouncingScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: order?.data?.invoices?.length,
+                          itemCount:order?.data?.invoices?.length,
                           itemBuilder: (_, index) {
-                            controller.total.value +=
-                                order?.data?.invoices?[index].priceAfter ?? 0;
+                            // controller.total.value +=
+                            //     order?.data?.invoices?[index].priceAfter ?? 0;
                             return CustomBillCard(
-                              discount: order
-                                      ?.data?.invoices?[index].priceBefore
-                                      .toString() ??
-                                  "",
-                              name: order?.data?.invoices?[index].name,
-                              orderNumber:
-                                  order?.data?.invoices?[index].id.toString(),
-                              price: order?.data?.invoices?[index].priceAfter
+                              image: order?.data?.invoices![index].images!.first.imageUrl??'',
+
+                              price: order?.data?.invoices?[index].priceBefore
+                                              .toString() ??
+                                          "",
+
+                              name:order?.data?.invoices?[index].name??'',
+                              desc:order?.data?.invoices?[index].type??'',
+                              orderNumber:order?.data?.invoices?[index].quantity.toString()??'',
+                              discount: order?.data?.invoices?[index].priceAfter
                                   .toString(),
+
                             );
                           }),
+
+                      // ListView.builder(
+                      //     physics: BouncingScrollPhysics(),
+                      //     shrinkWrap: true,
+                      //     itemCount: order?.data?.invoices?.length,
+                      //     itemBuilder: (_, index) {
+                      //       controller.total.value +=
+                      //           order?.data?.invoices?[index].priceAfter ?? 0;
+                      //       return CustomBillCard(
+                      //         discount: order
+                      //                 ?.data?.invoices?[index].priceBefore
+                      //                 .toString() ??
+                      //             "",
+                      //         name: order?.data?.invoices?[index].name,
+                      //         orderNumber:
+                      //             order?.data?.invoices?[index].id.toString(),
+                      //         price: order?.data?.invoices?[index].priceAfter
+                      //             .toString(),
+                      //       );
+                      //     }),
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      ' \t\tالمجموع\t\t',
-                      style: K.boldBlackSmallText,
-                    ),
-                    // K.sizedboxW,
-                    Obx(() => Text(
-                          '\$ ${controller.total.value}',
-                          style: K.boldBlackSmallText,
-                        )),
-                  ],
+                Container(
+                  padding: EdgeInsets.only(left: 30.w,right: 30.w),
+                  // margin: EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      Text(
+                        'المجموع',
+                        style: K.boldBlackSmallText,
+                      ),
+                      // K.sizedboxW,
+                   Obx(()=>    Text(
+                            ' ${total.value.toString()??''}',
+                            // '\$ ${controller.total.value}',
+                            style: K.boldBlackSmallText,
+                          ),
+                          ),
+
+                    ],
+                  ),
                 ),
-                Divider(
+            Container(
+              padding: EdgeInsets.only(left: 30.w,right: 30.w),
+              // margin: EdgeInsets.all(5),
+              child:  Divider(
                   thickness: 2,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                ),
+            K.sizedboxH,
+            Container(
+              padding: EdgeInsets.only(left: 30.w,right: 30.w),
+              // margin: EdgeInsets.all(5),
+              child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Button(
                         color: K.semiDarkRed,
                         // color: Color(0xfffcf2f4),
                         text: 'قبول الطلب'.tr,
-                        size: MediaQuery.of(context).size.width / 2.w,
+                        size: MediaQuery.of(context).size.width / 2.2.w,
                         height: MediaQuery.of(context).size.width / 9.h,
                         isFramed: false,
                         fontSize: 22.sp,
@@ -161,12 +224,13 @@ class BillScreen extends StatelessWidget {
                     Button(
                         color: Color(0xfffcf2f4),
                         text: 'الغاء الطلب'.tr,
-                        size: MediaQuery.of(context).size.width / 3.w,
+                        size: MediaQuery.of(context).size.width / 3.2.w,
                         height: MediaQuery.of(context).size.width / 9.h,
                         isFramed: true,
                         fontSize: 22.sp,
                         onPressed: () async {}),
                   ],
+                ),
                 ),
                 K.sizedboxH,
               ],
@@ -176,80 +240,3 @@ class BillScreen extends StatelessWidget {
   }
 }
 
-class CustomBillCard extends StatelessWidget {
-  const CustomBillCard(
-      {Key? key, this.orderNumber, this.name, this.discount, this.price})
-      : super(key: key);
-  final String? name;
-  final String? price;
-  final String? discount;
-  final String? orderNumber;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(5),
-      margin: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: K.lightMainColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 100.0,
-            height: 100.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage('assets/images/test.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              Text(
-                name ?? "",
-                style: K.boldBlackSmallText,
-              ),
-              K.sizedboxH,
-              RichText(
-                text: TextSpan(
-                  text: ' عرض $orderNumber  ',
-                  style: K.redTextStyle,
-                  // children:<InlineSpan> [
-                  children: [
-                    TextSpan(
-                      // text: 'عرض 2 ',
-                      text: '\$$discount ',
-                      style: K.boldBlackSmallText,
-                      // style:K.redTextStyle,
-                    ),
-                    // K.sizedboxW,
-                    WidgetSpan(
-                      child: CustomSlopText(
-                        text: '$price',
-                        color: K.primaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              K.sizedboxH,
-              Text(
-                'سينابون +سينابون',
-              ),
-            ],
-          ),
-          K.sizedboxW,
-          Text(
-            '   $orderNumber  ',
-            style: K.boldBlackSmallText,
-          ),
-        ],
-      ),
-    );
-  }
-}

@@ -7,7 +7,10 @@ import 'package:tajer/enum/view_state.dart';
 import 'package:tajer/screens/orders_screen/orders_screen.dart';
 import '../../componants/custom_app_bar.dart';
 import '../../componants/custom_button.dart';
+import '../../componants/drawer_notification.dart';
 import '../../constants/style.dart';
+import '../../helpers/cache_helper.dart';
+import '../../utils/app_constants.dart';
 import '../credit_screen/credit_screen.dart';
 import '../home/home_controller/home_controller.dart';
 
@@ -18,6 +21,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(HomeController());
     return Scaffold(
+      drawer: DrawerNotification(),
         appBar: CustomAppBar(
           controller: controller,
           onTap: () {
@@ -36,6 +40,14 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
+
+    //                   TextButton(onPressed: () async {
+    // var token;
+    //
+    // token = await CacheHelper.getData(key: AppConstants.token);
+    //                     controller.getHomeData(token);
+    //                   }, child: Text('mcjc')),
                       GestureDetector(
                         onTap: () {
                           Get.to(() => const CreditScreen());
@@ -72,7 +84,8 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      '   277.9   رصيد التاجر   ',
+                                        // controller.chart?.accountBalance.toString()??'',
+                                      '  ${controller.chart?.accountBalance.toString()??''}  رصيد التاجر   ',
                                       style: TextStyle(
                                           color: K.whiteColor, fontSize: 15.sp),
                                     ),
@@ -86,9 +99,9 @@ class HomeScreen extends StatelessWidget {
                                     style: TextStyle(
                                         color: K.whiteColor, fontSize: 15.sp),
                                   ),
-                                  Text(
-                                    ' 277.9 ',
-                                    style: TextStyle(
+                                  Text( controller.chart?.accountBalance.toString()??'' ,
+
+                                      style: TextStyle(
                                         color: K.whiteColor, fontSize: 15.sp),
                                   ),
                                 ],
@@ -236,40 +249,40 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // controller.chart?.recentOrders?.isEmpty == true
-                      //     ? const SizedBox()
-                      //     : ListView.builder(
-                      //         physics: const BouncingScrollPhysics(),
-                      //         shrinkWrap: true,
-                      //
-                      //         // itemCount: 3,
-                      //         itemCount: controller.chart?.recentOrders?.length,
-                      //         itemBuilder: (ctx, index) => CustomOrdersCard(
-                      //             onAccept: () {
-                      //               // Get.to(() => BillScreen(
-                      //               //   order:controller
-                      //               //       .chart?.recentOrders?[index] ,
-                      //               // ));
-                      //             },
-                      //             clientName: controller
-                      //                 .chart?.recentOrders?[index].clientName,
-                      //             invoicesCount: controller
-                      //                 .chart?.recentOrders?[index].invoicesCount
-                      //                 .toString(),
-                      //             total: controller
-                      //                 .chart?.recentOrders?[index].total
-                      //                 .toString(),
-                      //             totalBefore: controller
-                      //                 .chart?.recentOrders?[index].totalBefore
-                      //                 .toString(),
-                      //             icon: GestureDetector(
-                      //               child: const Icon(
-                      //                 Icons.more_vert,
-                      //                 size: 20,
-                      //               ),
-                      //               onTap: () {},
-                      //             ),
-                      //             onCancel: () {})),
+                      controller.chart?.recentOrders?.isEmpty == true
+                          ? const SizedBox()
+                          : ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+
+                              // itemCount: 3,
+                              itemCount: controller.chart?.recentOrders?.length,
+                              itemBuilder: (ctx, index) => CustomOrdersCard(
+                                  onAccept: () {
+                                    // Get.to(() => BillScreen(
+                                    //   order:controller
+                                    //       .chart?.recentOrders?[index] ,
+                                    // ));
+                                  },
+                                  clientName: controller
+                                      .chart?.recentOrders?[index].clientName,
+                                  invoicesCount: controller
+                                      .chart?.recentOrders?[index].invoicesCount
+                                      .toString(),
+                                  total: controller
+                                      .chart?.recentOrders?[index].total
+                                      .toString(),
+                                  totalBefore: controller
+                                      .chart?.recentOrders?[index].totalBefore
+                                      .toString(),
+                                  icon: GestureDetector(
+                                    child: const Icon(
+                                      Icons.more_vert,
+                                      size: 20,
+                                    ),
+                                    onTap: () {},
+                                  ),
+                                  onCancel: () {})),
                     ],
                   ),
                 ),

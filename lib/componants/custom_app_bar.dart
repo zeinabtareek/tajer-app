@@ -31,21 +31,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 150,
       leading: Row(
         children: [
-          GestureDetector(
-            onTap: () {
-              Get.to(() => const SupportScreen());
-            },
-            child: Icon(
-              Icons.support,
-              color: K.semiDarkRed.withOpacity(.9),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //
+          //   },
+          //   child: Icon(
+          //     Icons.menu,
+          //     color: K.semiDarkRed.withOpacity(.9),
+          //   ),
+          // ),
           const SizedBox(
             width: 5,
           ),
           GestureDetector(
             onTap: () {
-              Get.to(() => const NotificationScreen());
+              Scaffold.of(context).openDrawer();
+
+              // Get.to(() => const NotificationScreen());
             },
             child: Icon(
               Icons.notifications_active,

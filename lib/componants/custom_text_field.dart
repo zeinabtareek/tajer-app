@@ -49,7 +49,7 @@ class CustomAddressTextField extends StatelessWidget {
             fillColor: K.lightMainColor,
             filled: true,
             isDense: true,
-            contentPadding: EdgeInsets.all(22.sp),
+            contentPadding: EdgeInsets.all(10.sp),
             hintStyle: TextStyle(
                 color: K.mainColor, fontSize: 18, fontWeight: FontWeight.bold),
             border: OutlineInputBorder(

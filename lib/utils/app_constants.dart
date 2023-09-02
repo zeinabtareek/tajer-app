@@ -11,6 +11,7 @@ class AppConstants {
   static const String deleteMyAccount = '/auth/deleteMyAccount';
   static const String logout = '/auth/logout';
   static const String order = '/order';
+  static const String orderHistory = '/report/ordersHistory';
   static const String getOrderById = '/order/';
   static const String search = '/order/search';
   static const String cancelOrder = '/order/cancel/';

@@ -58,6 +58,7 @@ class OrdersScreen extends StatelessWidget {
                               CustomAddressTextField(
                                 width:
                                     MediaQuery.of(context).size.width / 1.3.w,
+                                // height:55,
                                 hintText: "ابحث عن الفاتورة".tr,
                                 labelText: "ابحث عن الفاتورة ".tr,
                                 onSubmitted: (v) async {
@@ -86,8 +87,11 @@ class OrdersScreen extends StatelessWidget {
                                       onTap: () async {
                                      await   controller.getOrder(
                                             id: controller.orders[index].id);
+                                     print('controller.total.value ${controller.total.value}');
+
                                      await    Get.to(() => BillScreen(
                                               order: controller.orderById,
+                                       total:controller.total,
                                             ));
                                       },
                                       child: CustomOrdersCard(

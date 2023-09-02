@@ -6,10 +6,15 @@ import 'package:tajer/enum/view_state.dart';
 import 'package:tajer/model/home_model.dart';
 import 'package:tajer/screens/home/services/home_services.dart';
 
+import '../../../helpers/cache_helper.dart';
+import '../../../utils/app_constants.dart';
+
 class HomeController extends BaseController {
   final service = HomeService();
   HomeModel? chart;
+  HomeModel? data;
   final activePage = 3.obs;
+  final isLoading = false.obs;
   final titles = <String>['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
   final showingBarGroups = <BarChartGroupData>[].obs;
 
@@ -17,13 +22,18 @@ class HomeController extends BaseController {
     activePage.value = index;
   }
 
+  var token;
+
   @override
-  Future<void> onInit() async {
+  onInit() async {
    super.onInit();
     setState(ViewState.busy);
-    chart = await service.getChart();
-    await create();
+   token = await CacheHelper.getData(key: AppConstants.token);
+   await getHomeData(token);
+     // chart = await getHomeData(token);
+    // chart = await service.getChart();
 
+    await create();
    await setState(ViewState.idle);
   }
 
@@ -66,6 +76,18 @@ class HomeController extends BaseController {
       ),
     ]);
     print(showingBarGroups.length);
+  }
+  Future<HomeModel?> getHomeData(String token) async {
+    isLoading.value = true;
+    try {
+      chart = await HomeService.getChart(token);
+      print('balance ${chart!.accountBalance}');
+      return data;
+    } catch (error) {
+      print('$error');
+    }
+
+    isLoading.value = false;
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {

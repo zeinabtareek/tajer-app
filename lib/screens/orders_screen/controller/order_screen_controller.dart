@@ -23,7 +23,7 @@ class OrderScreenController extends BaseController {
   final selectedText = ''.obs;
   final notes = ''.obs;
   final showOverlay = false.obs;
-
+final total =0.0.obs;
   // bool _showOverlay = false;
 
   Future<void> onClick(String text) async {
@@ -82,6 +82,11 @@ class OrderScreenController extends BaseController {
 
   getOrder({int? id}) async {
     orderById = await service.getOrderById(id: id);
+    orderById?.data?.invoices?.forEach((element) {
+     total.value+=double.parse( element.total.toString());
+    });
+    print('total.value ${total.value}');
     print(orderById!.toJson());
+    update();
   }
 }
