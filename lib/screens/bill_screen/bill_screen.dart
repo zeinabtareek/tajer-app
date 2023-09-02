@@ -150,26 +150,6 @@ class BillScreen extends StatelessWidget {
 
                             );
                           }),
-
-                      // ListView.builder(
-                      //     physics: BouncingScrollPhysics(),
-                      //     shrinkWrap: true,
-                      //     itemCount: order?.data?.invoices?.length,
-                      //     itemBuilder: (_, index) {
-                      //       controller.total.value +=
-                      //           order?.data?.invoices?[index].priceAfter ?? 0;
-                      //       return CustomBillCard(
-                      //         discount: order
-                      //                 ?.data?.invoices?[index].priceBefore
-                      //                 .toString() ??
-                      //             "",
-                      //         name: order?.data?.invoices?[index].name,
-                      //         orderNumber:
-                      //             order?.data?.invoices?[index].id.toString(),
-                      //         price: order?.data?.invoices?[index].priceAfter
-                      //             .toString(),
-                      //       );
-                      //     }),
                     ],
                   ),
                 ),
@@ -228,9 +208,104 @@ class BillScreen extends StatelessWidget {
                         height: MediaQuery.of(context).size.width / 9.h,
                         isFramed: true,
                         fontSize: 22.sp,
-                        onPressed: () async {}),
-                  ],
-                ),
+                        onPressed: () async {
+
+                          await showDialog(
+                            context:
+                            context,
+                            builder:
+                                (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                insetPadding: EdgeInsets.all(20),
+                                contentPadding: EdgeInsets.all(10),
+                                content: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.black54,
+                                    ),
+                                    margin: EdgeInsets.all(10),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.all(10),
+                                            // padding: EdgeInsets.all(10),
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20),
+                                                topRight: Radius.circular(20),
+                                              ),
+                                              // color: Colors.white,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: CircleAvatar(
+                                                    backgroundColor: Colors.transparent,
+                                                    child: IconButton(
+                                                      icon: Icon(Icons.cancel),
+                                                      onPressed: () {
+                                                        controller.showOverlay.value = false;
+                                                        Get.back();
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              children: [
+                                                Directionality(
+                                                  textDirection: TextDirection.rtl,
+                                                  child: Container(
+                                                    child: CustomAddressTextField(
+                                                      maxLines: 10,
+                                                      width: MediaQuery.of(context).size.width / 1.w,
+                                                      hintText: " اكتب هنا  ".tr,
+                                                      labelText: "".tr,
+                                                      onChanged: (String v) {
+                                                        controller.notes.value = v;
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                                Center(
+                                                  child: Button(
+                                                    color: Color(0xfffcf2f4),
+                                                    text: 'الغاء الطلب'.tr,
+                                                    size: MediaQuery.of(context).size.width / 1.5.w,
+                                                    height: MediaQuery.of(context).size.width / 9.h,
+                                                    isFramed: true,
+                                                    fontSize: 22.sp,
+                                                    onPressed: () async {
+                                                      controller.cancelOrder(
+                                                        note: controller.notes.value,
+                                                        id: order?.data?.id
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              );
+                            },
+                          );
+                        }),
+                   ],
+                 ),
                 ),
                 K.sizedboxH,
               ],

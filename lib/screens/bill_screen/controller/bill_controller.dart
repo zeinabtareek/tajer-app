@@ -13,10 +13,16 @@ class BillController extends BaseController {
   final service = OrderServices();
   final searchController = ''.obs;
   final address = ''.obs;
+  final notes = ''.obs;
+  final showOverlay = false.obs;
 
   final total=0.0.obs;
-  cancelOrder({int? id}) async {
-    await service.cancelOrder(id: id);
+  // cancelOrder({int? id}) async {
+  //   await service.cancelOrder(id: id);
+  //   Get.back();
+  // }
+  cancelOrder({int? id, String? note}) async {
+    await service.cancelOrder(id: id, note: note);
     Get.back();
   }
 

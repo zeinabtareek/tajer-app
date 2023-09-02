@@ -222,7 +222,7 @@ Widget CreditBody(context,
                       'نسبة المنصة',
                       style: TextStyle(
                           color: K.whiteColor,
-                          fontSize: 20.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -238,7 +238,9 @@ Widget CreditBody(context,
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      '277.900',
+                      '$companyShare',
+                      // '$requiredMoney',
+                      // '277.900',
                       style: TextStyle(
                           color: K.whiteColor,
                           fontSize: 15.sp,
@@ -247,33 +249,33 @@ Widget CreditBody(context,
                   ),
                 ],
               ),
-              companyShare == null ? SizedBox() : K.sizedboxH,
-              companyShare == null
-                  ? SizedBox()
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'صافي ارباح المنصة من مبيعات التاجر',
-                          style: TextStyle(
-                              color: K.whiteColor,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        K.sizedboxW,
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            '$requiredMoney',
-                            style: TextStyle(
-                                color: K.whiteColor,
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        // K.sizedboxW,
-                      ],
-                    ),
+              // companyShare == null ? SizedBox() : K.sizedboxH,
+              // companyShare == null
+              //     ? SizedBox()
+              //     : Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Text(
+              //             'صافي ارباح المنصة من مبيعات التاجر',
+              //             style: TextStyle(
+              //                 color: K.whiteColor,
+              //                 fontSize: 15.sp,
+              //                 fontWeight: FontWeight.bold),
+              //           ),
+              //           K.sizedboxW,
+              //           Padding(
+              //             padding: const EdgeInsets.only(left: 8.0),
+              //             child: Text(
+              //               '$requiredMoney',
+              //               style: TextStyle(
+              //                   color: K.whiteColor,
+              //                   fontSize: 15.sp,
+              //                   fontWeight: FontWeight.bold),
+              //             ),
+              //           ),
+              //           // K.sizedboxW,
+              //         ],
+              //       ),
               earnings == null ? SizedBox() : K.sizedboxH,
               earnings == null
                   ? SizedBox()

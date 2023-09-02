@@ -41,10 +41,23 @@ class OrderServices {
     }
   }
 
-  search({String? query}) async {
+  // search({String? query}) async {
+  //   try {
+  //     final response = await dio!
+  //         .post(AppConstants.search, queryParameters: {"query": query});
+  //     if (response.statusCode == 200) {
+  //       OrderModel order = OrderModel.fromJson(response.data);
+  //       return order;
+  //     }
+  //   } catch (e) {
+  //     if (e is DioExceptionType) {
+  //       HandleError.handleExceptionDio(e);
+  //     }
+  //   }
+  // }
+  Future<OrderModel> search({String? query}) async {
     try {
-      final response = await dio!
-          .post(AppConstants.search, queryParameters: {"query": query});
+      final response = await dio!.post(AppConstants.search, queryParameters: {"query": query});
       if (response.statusCode == 200) {
         OrderModel order = OrderModel.fromJson(response.data);
         return order;
@@ -54,8 +67,9 @@ class OrderServices {
         HandleError.handleExceptionDio(e);
       }
     }
+    // Return a default empty OrderModel if an error occurs or the response is not 200.
+    return OrderModel(data: []);
   }
-
   cancelOrder({int? id, String? note}) async {
     try {
       final response = await dio!

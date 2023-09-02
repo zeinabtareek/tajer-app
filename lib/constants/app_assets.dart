@@ -11,4 +11,5 @@ class AssetImages {
   static const String infoIcon = 'assets/vectors/info_icon.svg';
   static const String warning = 'assets/vectors/warning.svg';
   static const String errorIcon = 'assets/vectors/error_icon.svg';
+  static const String noOrders = 'assets/images/no_order.png';
 }
