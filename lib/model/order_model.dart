@@ -29,8 +29,11 @@ class Orders {
       this.clientImage, 
       this.orderNumber, 
       this.total, 
-      this.totalBefore, 
-      this.invoicesCount,});
+      this.totalBefore,
+    this.status,
+    this.cancelationNote,
+
+    this.invoicesCount,});
 
   Orders.fromJson(dynamic json) {
     id = json['id'];
@@ -40,6 +43,9 @@ class Orders {
     total = json['total'];
     totalBefore = json['total_before'];
     invoicesCount = json['invoices_count'];
+
+    status = json['status'];
+    cancelationNote = json['cancelation_note'];
   }
   int? id;
   String? clientName;
@@ -48,6 +54,8 @@ class Orders {
   int? total;
   int? totalBefore;
   int? invoicesCount;
+  String? status;
+  String? cancelationNote;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -58,6 +66,9 @@ class Orders {
     map['total'] = total;
     map['total_before'] = totalBefore;
     map['invoices_count'] = invoicesCount;
+    map['cancelation_note'] = cancelationNote;
+    map['status'] = status;
+
     return map;
   }
 

@@ -58,20 +58,20 @@ class LogInScreen extends StatelessWidget {
                   controller.login();
                   // Get.to(Home());
                 }),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  child: Text(
-                    '\t\t\tهل نسيت كلمه السر؟\t\t',
-                    style: K.boldBlackSmallText,
-                  ),
-                  onTap: () {
-                    Get.to(() => SupportScreen());
-                  },
-                )
-              ],
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     GestureDetector(
+            //       child: Text(
+            //         '\t\t\tهل نسيت كلمه السر؟\t\t',
+            //         style: K.boldBlackSmallText,
+            //       ),
+            //       onTap: () {
+            //         Get.to(() => SupportScreen());
+            //       },
+            //     )
+            //   ],
+            // )
           ]),
     )));
   }

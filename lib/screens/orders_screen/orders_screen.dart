@@ -126,12 +126,22 @@ class OrdersScreen extends StatelessWidget {
                                                       'طلبات جديدة'
                                                   ? false
                                                   : true,
+                                          image:controller
+                                              .orders[index].clientImage,
                                           onAccept: () async {
                                             await controller.acceptOrder(
                                                 id: controller.orders[index].id!
                                                     .toInt(),
                                                 con: context);
                                           },
+                                          isRejected: controller.selectedText.value ==
+                                              'طلبات تم الالغاء'||controller
+                                              .orders[index].status.toString() ==
+                                              'canceled'
+                                              ? false
+                                              : true,
+                                          note:controller
+                                              .orders[index].cancelationNote.toString()??'',
                                           clientName: controller
                                               .orders[index].clientName,
                                           invoicesCount: controller
@@ -677,8 +687,10 @@ Widget buildSearchResult(context) {
   } else {
     return  CustomOrdersCard(
         isAccepted:
-        controller.selectedText.value ==
-            'طلبات جديدة'
+        controller.searchedOrder.status ==
+            'pending'
+        // controller.selectedText.value ==
+        //     'طلبات جديدة'
             ? false
             : true,
         onAccept: () async {
@@ -689,6 +701,14 @@ Widget buildSearchResult(context) {
         },
         clientName: controller
             .searchedOrder.clientName,
+        image:controller.searchedOrder.clientImage??'',
+        isRejected: controller.searchedOrder.status.toString() ==
+        'canceled'
+
+            ? false
+            : true,
+        note:controller.searchedOrder.cancelationNote.toString()??'',
+
         invoicesCount: controller
             .searchedOrder.invoicesCount
             .toString(),

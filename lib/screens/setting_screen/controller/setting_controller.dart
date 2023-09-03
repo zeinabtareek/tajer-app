@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tajer/helpers/cache_helper.dart';
+import 'package:tajer/model/social_model.dart';
 import 'package:tajer/screens/log_in_screen/login_screen.dart';
 import 'package:tajer/screens/setting_screen/services/setting_services.dart';
 import 'package:tajer/screens/splash_screen/splash_screen.dart';
@@ -9,12 +10,14 @@ import '../../../model/setting_model.dart';
 
 class SettingsController extends GetxController {
   SettingsModel model = SettingsModel();
+  SocialModel socialModel = SocialModel();
   final services = SettingServices();
   final isLoading = false.obs;
   final deliveryAreaEnable = false.obs;
   final nameEnable = false.obs;
   final isDisable = true.obs;
   final companyEnable = false.obs;
+  final socialLoading = false.obs;
   final emailEnable = false.obs;
   final addressEnable = false.obs;
   final deliveryAreaController = TextEditingController();
@@ -30,6 +33,7 @@ class SettingsController extends GetxController {
     isLoading.value = true;
     // isLoading.value=true;
     await getUserData(token);
+    await getSocial(token);
 
     print(token);
     isDisable.value = false;
@@ -47,6 +51,19 @@ class SettingsController extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+
+  getSocial(token)async{
+    socialLoading.value = true;
+    try {
+     socialModel=await SettingServices.getSocial(token);
+      return model;
+    } catch (error) {
+      print('$error');
+    }
+
+    socialLoading.value = false;
   }
 
   deliveryAreaIsClickedToEnable(context, {field, required value}) {
@@ -136,4 +153,6 @@ class SettingsController extends GetxController {
     CacheHelper.clearData();
     Get.offAll(() => LogInScreen());
   }
+
+
 }

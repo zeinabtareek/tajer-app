@@ -87,7 +87,7 @@ class BillScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height/2.h,
                   child: LocationMapView(latitude: double.parse(order?.data?.clientLatitude.toString()??'0'),
                     longitude: double.parse(order?.data?.clientLongitude.toString()??'0'),
-                      address:''
+                      address:order?.data?.clientLocation??''
                   ),
                 ),
 
@@ -141,13 +141,11 @@ class BillScreen extends StatelessWidget {
                               price: order?.data?.invoices?[index].priceBefore
                                               .toString() ??
                                           "",
-
                               name:order?.data?.invoices?[index].name??'',
                               desc:order?.data?.invoices?[index].type??'',
                               orderNumber:order?.data?.invoices?[index].quantity.toString()??'',
                               discount: order?.data?.invoices?[index].priceAfter
                                   .toString(),
-
                             );
                           }),
                     ],

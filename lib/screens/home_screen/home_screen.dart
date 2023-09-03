@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import '../../componants/drawer_notification.dart';
 import '../../constants/style.dart';
 import '../../helpers/cache_helper.dart';
 import '../../utils/app_constants.dart';
+import '../bill_screen/bill_screen.dart';
 import '../credit_screen/credit_screen.dart';
 import '../home/home_controller/home_controller.dart';
 
@@ -21,6 +23,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(HomeController());
     return Scaffold(
+        extendBody: true,
+      // backgroundColor: Colors.green,
       drawer: DrawerNotification(),
         appBar: CustomAppBar(
           controller: controller,
@@ -90,21 +94,24 @@ class HomeScreen extends StatelessWidget {
                                           color: K.whiteColor, fontSize: 15.sp),
                                     ),
                                   )),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'رصيد التاجر  ',
-                                    style: TextStyle(
-                                        color: K.whiteColor, fontSize: 15.sp),
-                                  ),
-                                  Text( controller.chart?.accountBalance.toString()??'' ,
-
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'رصيد التاجر',
                                       style: TextStyle(
-                                        color: K.whiteColor, fontSize: 15.sp),
-                                  ),
-                                ],
+                                          color: K.whiteColor, fontSize: 15.sp),
+                                    ),
+                                    Text( controller.chart?.accountBalance.toString()??'' ,
+
+                                        style: TextStyle(
+                                          color: K.whiteColor, fontSize: 15.sp),
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -260,8 +267,7 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (ctx, index) => CustomOrdersCard(
                                   onAccept: () {
                                     // Get.to(() => BillScreen(
-                                    //   order:controller
-                                    //       .chart?.recentOrders?[index] ,
+                                    //   order:controller.chart?.recentOrders?[index], total: null ,
                                     // ));
                                   },
                                   clientName: controller
@@ -338,9 +344,12 @@ class CustomOrdersCard extends StatelessWidget {
   final Function()? onAccept;
   final String? clientName;
   final String? invoicesCount;
+  final String? image;
   final String? total;
+  final String? note;
   final String? totalBefore;
   final bool? isAccepted;
+  final bool? isRejected;
 
   const CustomOrdersCard(
       {Key? key,
@@ -351,6 +360,9 @@ class CustomOrdersCard extends StatelessWidget {
       this.invoicesCount,
       this.isAccepted,
       this.onAccept,
+      this.image,
+      this.note,
+      this.isRejected,
       this.totalBefore})
       : super(key: key);
 
@@ -373,10 +385,26 @@ class CustomOrdersCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ClipOval(
-                  child: Image.asset(
-                    'assets/images/test.png',
-                    fit: BoxFit.cover,
-                  ),
+                  child:  Container(
+                    // color: Colors.green,
+                    height: 70,
+                    width: 90,
+                    decoration: K.boxDecorationLightGrey,
+                    child: CachedNetworkImage(
+                        imageUrl:  image.toString(),
+                        // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR34hPo9zGkYxB2NKePgvPeImdm-CDTsHPrt4DFUyU_4A&s",
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.image),
+                        fadeInDuration: Duration.zero,
+                        fadeOutDuration: Duration.zero,
+                      ),
+                  )
+                  // Image.asset(
+                  //   'assets/images/test.png',
+                  //   fit: BoxFit.cover,
+                  // ),
                 ),
                 // K.sizedboxW,
                 Column(
@@ -417,6 +445,18 @@ class CustomOrdersCard extends StatelessWidget {
             ),
           ),
           // isAccepted ==false?
+          isRejected == true
+              ? SizedBox()
+          :Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('تم الالغاء',style: K.boldBlackSmall,),
+              Text(note.toString(),style: K.boldBlackSmall,),
+              // Text('خارج نطاق التوصيل',style: K.boldBlackSmall,),
+            ],
+          ),
+
+
           isAccepted == true
               ? SizedBox()
               : Row(

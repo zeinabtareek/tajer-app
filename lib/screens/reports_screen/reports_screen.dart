@@ -19,9 +19,10 @@ class ReportsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ReportController());
 
-    return Directionality(
+    return  Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        extendBody: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
@@ -30,134 +31,128 @@ class ReportsScreen extends StatelessWidget {
           ),
           leading: SizedBox(),
         ),
-        body: SingleChildScrollView(
+        body:  SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-         Obx(() =>   CustomDropDown(
-             dropdownValue: controller.dropdownValue.value ?? '',
-             isDropDown: true,
-             text: controller.dropdownValue.value.toString(),
-             onChanged: (newValue) {
-               controller.onChaned(newValue);
+         // Obx(() =>
+             Padding(
+               padding: const EdgeInsets.all(8.0),
+               child: CustomDropDown(
+               // dropdownValue: controller.dropdownValue.value ?? '',
+               // isDropDown: true,
+               // text: controller.dropdownValue.value.toString(),
+               onChanged: (newValue) {
+                 controller.onChaned(newValue);
 
 
-             },
+               }, hint: 'اختيار نوع التقرير', listOfItems: [], onSaved: (String?v ) {
+           controller.onChaned(v);
+         },
            ),
-               // :Text('data',style: K.boldBlackSmallText,),
+             ),
 
-
-              ),
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: GestureDetector(
-              //         onTap: () {
-              //           controller.showCalenderFrom(context: context);
-              //         },
-              //         child: GetBuilder<ReportController>(
-              //             init: ReportController(),
-              //             builder: (controller) => CustomDropDown(
-              //           text: controller.fromDateTime.value == null ? 'من' : controller.getDateFormattedWWithPattern(controller.fromDateTime),
-              //           isDropDown: false,
-              //           dropdownValue: '',
-              //           onChanged: (newValue) {
-              //             final selectedDateTime = controller.getDateFormattedWWithPattern(newValue);
-              //             if (selectedDateTime != null) {
-              //               controller.fromDateTime = selectedDateTime;
-              //             }
-              //           },
-              //         ),
-              //       ),
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: GestureDetector(
-              //         onTap: () {
-              //           controller.showCalenderTo(context: context);
-              //         },
-              //         child: CustomDropDown(
-              //           isDropDown: false,
-              //           dropdownValue: '',
-              //           text: controller.toDateTime == null ? 'الخميس' : controller.getDateFormattedWWithPattern(controller.toDateTime),
-              //           onChanged: (newValue) {
-              //             final selectedDateTime = controller.getDateFormattedWWithPattern(newValue);
-              //             if (selectedDateTime != null) {
-              //               controller.toDateTime = selectedDateTime;
-              //             }
-              //           },
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
               Obx( () =>
                        Row(
                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                          children: [
-                           Container(
+                           GestureDetector(
+                             child: Container(
                              height: 60.h,
                              width: 150.w,
+
                              margin: EdgeInsets.only(
                                  left: 10.w,
                                  right: 10.w,
                                  bottom: 10.h,
                                  top: 10.h),
                              padding: EdgeInsets.all(2.sp),
-                             decoration: K.boxDecoration,
-                             child: ElevatedButton(
-                               onPressed: () async {
-                                 final date = await controller.showCalenderFrom(
-                                     context: context);
-                                 if (date == null) return;
-                                 controller.newTime.value = date;
-                                 print(controller.dateTime.value);
-                               },
-                               style: ButtonStyle(
-                                 backgroundColor:
-                                 MaterialStateProperty.all<Color>(
-                                     Colors.white),
-                               ),
+                             decoration:BoxDecoration(
+                               borderRadius: BorderRadius.circular(10),
+                               // border: Border.none,
+                               color: K.lightMainColor
+                               // color:Colors.green
+                             ),
+                             // child: ElevatedButton(
+                             //   onPressed: () async {
+                             //     final date = await controller.showCalenderFrom(
+                             //         context: context);
+                             //     if (date == null) return;
+                             //     controller.newTime.value = date;
+                             //     print(controller.dateTime.value);
+                             //   },
+                             //   style: ButtonStyle(
+                             //     backgroundColor:
+                             //     MaterialStateProperty.all<Color>(
+                             //         K.lightMainColor ),
+                             //   ),
                                child: controller.newTime.value == null
-                                   ? Text('من',style:TextStyle(color: K.blackColor))
-                                   : Text(
+                                   ? Center(child: Text('من',style:TextStyle(color: K.blackColor)))
+                                   : Center(
+                                     child: Text(
                                  "${controller.newTime.value?.year}/${controller.newTime.value?.month}/${controller.newTime.value?.day}",
                                  style: TextStyle(color: K.blackColor),
                                ),
-                             ),
+                                   ),
+                             ),onTap: ()async{
+                             final date = await controller.showCalenderFrom(
+                                         context: context);
+                                     if (date == null) return;
+                                     controller.newTime.value = date;
+                                     print(controller.dateTime.value);
+                           },
                            ),
-                           Container(
-                             height: 60.h,
-                             width: 150.w,
-                             margin: EdgeInsets.only(
-                                 left: 10.w,
-                                 right: 10.w,
-                                 bottom: 10.h,
-                                 top: 10.h),
-                             padding: EdgeInsets.all(2.sp),
-                             decoration: K.boxDecoration,
-                             child: ElevatedButton(
-                               onPressed: () async {
-                                 final date = await controller.showCalenderTo(
-                                     context: context);
-                                 if (date == null) return;
-                                 controller.newTimeTo.value = date;
-                                 print(controller.dateTimeTo.value);
-                               },
-                               style: ButtonStyle(
-                                 backgroundColor:
-                                 MaterialStateProperty.all<Color>(
-                                     Colors.white),
+                           GestureDetector(
+                             child: Container(
+                               height: 60.h,
+                               width: 150.w,
+                               margin: EdgeInsets.only(
+                                   left: 10.w,
+                                   right: 10.w,
+                                   bottom: 10.h,
+                                   top: 10.h),
+                               padding: EdgeInsets.all(2.sp),
+                               // decoration: K.boxDecoration,
+                               decoration:BoxDecoration(
+                                   borderRadius: BorderRadius.circular(10),
+                                   // border: Border.none,
+                                   color: K.lightMainColor
+                                 // color:Colors.green
                                ),
-                               child: controller.newTimeTo.value == null
-                                   ? Text('إلى',style:TextStyle(color: K.blackColor))
-                                   : Text(
-                                 "${controller.newTimeTo.value?.year}/${controller.newTimeTo.value?.month}/${controller.newTimeTo.value?.day}",
-                                 style: TextStyle(color: K.blackColor),
+                               // child: ElevatedButton(
+                               //   onPressed: () async {
+                               //     final date = await controller.showCalenderTo(
+                               //         context: context);
+                               //     if (date == null) return;
+                               //     controller.newTimeTo.value = date;
+                               //     print(controller.dateTimeTo.value);
+                               //   },
+                               //   style: ButtonStyle(
+                               //     backgroundColor:
+                               //     MaterialStateProperty.all<Color>(
+                               //         K.lightMainColor),
+                               //   ),
+                                 child: controller.newTimeTo.value == null
+                                     ? Center(child: Text('إلى',style:TextStyle(color: K.blackColor)))
+                                     : Center(
+                                       child: Text(
+                                   "${controller.newTimeTo.value?.year}/${controller.newTimeTo.value?.month}/${controller.newTimeTo.value?.day}",
+                                   style: TextStyle(color: K.blackColor),
+                                 ),
+                                     ),
                                ),
-                             ),
+                             onTap: ()async{
+    // () async {
+        final date = await controller.showCalenderTo(
+            context: context);
+        if (date == null) return;
+        controller.newTimeTo.value = date;
+        print(controller.dateTimeTo.value);
+      },
+                             // },
                            ),
+                           // ),
                          ],
                        )
                       ),
@@ -180,11 +175,6 @@ class ReportsScreen extends StatelessWidget {
                 ),
                 ),
               ),
-              // Text(
-              //   'عرض البيتزا الشرايح',
-              //   style: K.boldBlackSmallText,
-              // ),
-              // K.sizedboxH,
               K.sizedboxH,
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -251,6 +241,8 @@ class ReportsScreen extends StatelessWidget {
                       ),
               ),
               K.sizedboxH,
+              K.sizedboxH,
+              K.sizedboxH,
      Obx(()=>  controller.isStartSearch.value?controller.dataLoading.value
          ?   Center(
        child: CupertinoActivityIndicator(
@@ -269,7 +261,10 @@ class ReportsScreen extends StatelessWidget {
           ),
         ),
       ),
+
     );
+
+
   }
 }
 

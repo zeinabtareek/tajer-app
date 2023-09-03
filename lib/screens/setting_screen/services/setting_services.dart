@@ -7,6 +7,7 @@ import 'package:tajer/componants/custom_snackbar.dart';
 import 'package:tajer/helpers/network/dio_integration.dart';
 import 'package:tajer/helpers/network/error_handler.dart';
 import 'package:tajer/model/setting_model.dart';
+import 'package:tajer/model/social_model.dart';
 import 'package:tajer/utils/app_constants.dart';
 import '../../../utils/overlay_helper.dart';
 
@@ -162,6 +163,31 @@ class SettingServices {
       print('An error occurred: $error');
       OverlayHelper.showErrorToast(context, ' خطأ تحديث المعلومات ');
       // Handle the error
+    }
+  }
+
+
+  static  getSocial (String token)async{
+
+    const String baseUrl = '/connection';
+    DioUtilNew.getInstance(); // Create the DioUtilNew instance
+
+    DioUtilNew.dio!.options.headers['Authorization'] = 'Bearer $token';
+
+    try {
+      final response = await DioUtilNew.dio!.get(baseUrl);
+
+      if (response.statusCode == 200) {
+        return SocialModel.fromJson(response.data);
+      } else {
+        print(
+            'Failed to fetch Social  date. Status code: ${response.statusCode}');
+        throw Exception(
+            'Failed to fetch Social  dater. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('An error occurred: $error');
+      throw Exception('An error occurred: $error');
     }
   }
 }
