@@ -41,16 +41,6 @@ class CreditScreen extends StatelessWidget {
                   size: 20,
                 ))
           ],
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(Icons.search),
-          //   ),
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(Icons.more_vert),
-          //   ),
-          // ],
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(40),
             child: Row(
@@ -101,33 +91,34 @@ class CreditScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Obx(() => controller.state == ViewState.busy
-            ?   Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
-                    child: CupertinoActivityIndicator(),
-                  ),
-                )
-            :
-            // optionContents[controller.selectedIndex.value])
-            CreditBody(context,
-                // option:controller.optionsList[controller.selectedIndex.value],
-                credit: controller.model.financialReport?.accountBalance ?? '',
-                requiredMoney:
-                    controller.model.financialReport?.requiredMony ?? '',
-                companyPercentage:
-                    controller.model.financialReport?.companyPrecentage ?? '',
-                earnings: controller.model.financialReport?.earnings ?? '',
-                companyShare:
-                    controller.model.financialReport?.companyShare ?? '',
-                widget: ListView.builder(
-                    itemCount: controller.model.items?.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return CustomOrderHistoryCards(
-                        model: controller.model.items![index],
-                      );
-                    }))),
+        child:Obx(() => controller.state == ViewState.busy
+    ? Center(
+        child: Padding(
+        padding: const EdgeInsets.only(top: 18.0),
+    child: CupertinoActivityIndicator(),
+    ),
+    )
+        : controller.model.items == null||controller.model.items!.isEmpty
+    ? Text('No data') // Handle the case where the model is null
+        : CreditBody(
+    context,
+    credit: controller.model.financialReport?.accountBalance ?? '',
+    requiredMoney: controller.model.financialReport?.requiredMony ?? '',
+    companyPercentage:
+    controller.model.financialReport?.companyPrecentage ?? '',
+    earnings: controller.model.financialReport?.earnings ?? '',
+    companyShare: controller.model.financialReport?.companyShare ?? '',
+    widget: ListView.builder(
+    itemCount: controller.model.items?.length ?? 0,
+    shrinkWrap: true,
+    itemBuilder: (context, index) {
+    return CustomOrderHistoryCards(
+    model: controller.model.items![index],
+    );
+    },
+    ),
+    ),
+    ),
       ),
     );
   }

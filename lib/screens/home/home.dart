@@ -104,6 +104,20 @@ class Home extends StatelessWidget {
 
    return  Scaffold(
           extendBody: true,
+
+
+       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+       //
+         floatingActionButton: FloatingActionButton(
+           backgroundColor:    Color(0xfff3e9eb),//0xff41,
+           onPressed: (){
+             Get.to(SupportScreen());
+           },
+           child: Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Image.asset('assets/images/chat.png',color:K.semiDarkRed),
+           ),  ),
+
         body: Obx(() =>
           controller.connection.connectivity.value == 1
                 ?

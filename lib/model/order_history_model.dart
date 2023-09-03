@@ -46,12 +46,12 @@ class FinancialReport {
         this.companyShare});
 
   FinancialReport.fromJson(Map<String, dynamic> json) {
-    accountBalance = json['account_balance'];
-    requiredMony = json['required_mony'];
-    payoffs = json['payoffs'];
-    companyPrecentage = json['company_precentage'];
-    earnings = json['earnings'];
-    companyShare = json['company_share'];
+    accountBalance = json['account_balance']??0;
+    requiredMony = json['required_mony']??0.0;
+    payoffs = json['payoffs']??0;
+    companyPrecentage = json['company_precentage']??0;
+    earnings = json['earnings']??0.0;
+    companyShare = json['company_share']??0.0;
   }
 
   Map<String, dynamic> toJson() {
@@ -81,11 +81,11 @@ class Items {
         this.earning});
 
   Items.fromJson(Map<String, dynamic> json) {
-    date = json['date'];
-    total = json['total'];
-    companyShare = json['company_share'];
-    companyPercentage = json['company_percentage'];
-    earning = json['earning'];
+    date = json['date']??'';
+    total = json['total']??0;
+    companyShare = json['company_share']??0.0;
+    companyPercentage = json['company_percentage']??0;
+    earning = json['earning']??0;
   }
 
   Map<String, dynamic> toJson() {
