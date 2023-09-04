@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,14 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'package:tajer/screens/qr_screen/controller/qr_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants/style.dart';
+import '../../helpers/cache_helper.dart';
+import '../../helpers/network/dio_integration.dart';
+import '../../utils/app_constants.dart';
 
 class QrScreen extends StatefulWidget {
   const QrScreen({Key? key}) : super(key: key);
@@ -18,6 +26,7 @@ class QrScreen extends StatefulWidget {
 }
 
 class _QrScreenState extends State<QrScreen> {
+
   //* qr scan transaction
   bool isScanComplete = false;
   int _count = 60;
@@ -38,105 +47,28 @@ class _QrScreenState extends State<QrScreen> {
     });
   }
 
-  // BarcodeCapture barcodeCapture = BarcodeCapture(barcodes: [], raw: null);
-
-  @override
+   @override
   Widget build(BuildContext context) {
+    final con=Get.put(QrController());
     return Scaffold(
-      // body: Stack(
-      //   // mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     MobileScanner(
-      //         controller: controller,
-      //         onDetect: (capture) {
-      //           final List<Barcode> barcodes = capture.barcodes;
-      //           final Uint8List? image = capture.image;
-      //           for (final barcode in barcodes) {
-      //             debugPrint('Barcode found! ${barcode.rawValue}');
-      //           }
-      //           if (image != null) {
-      //             showDialog(
-      //               context: context,
-      //               builder: (context) => Image(image: MemoryImage(image)),
-      //             );
-      //             Future.delayed(const Duration(seconds: 5), () {
-      //               Navigator.pop(context);
-      //             });
-      //           }
-      //         }),
-      //
-      //     Positioned(
-      //       top: 20,
-      //       right: 0,
-      //       left: 0,
-      //       child: Column(
-      //         children: [
-      //
-      //           Text(  " % ${(_count.toDouble())} في تقدم " ,style: TextStyle(color: K.whiteColor,fontWeight: FontWeight.w600,fontSize: 20.sp),),
-      //           LinearPercentIndicator(
-      //             width: 300,
-      //             lineHeight: 10.0,
-      //             percent: (_count.toDouble())/100,
-      //             backgroundColor: K.whiteColor,
-      //             progressColor: K.semiDarkRed,
-      //
-      //             // progressColor: Colors.green,
-      //             // fillColor: Colors.red.shade200,
-      //             animation: true,
-      //             // animationDuration: ,
-      //             leading: Text(" "),
-      //             trailing: Text(" "),
-      //             center: Text(" "),
-      //             barRadius: Radius.circular(5),
-      //             alignment: MainAxisAlignment.center,
-      //             padding: EdgeInsets.symmetric(horizontal: 10),
-      //             // animateFromLastPercent: true,
-      //             // linearGradient: LinearGradient(colors: [ K.darkRed, K.primaryColor,], ),
-      //             // addAutomaticKeepAlive: true,
-      //             // isRTL: true,
-      //             // maskFilter: MaskFilter.blur(BlurStyle.normal, 5.0),
-      //             // curve: Curves.linear,
-      //             // clipLinearGradient: true,
-      //             // restartAnimation: true,
-      //             // onAnimationEnd: (){print('progress...');},
-      //             // widgetIndicator: Icon(Icons.arrow_downward_outlined),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
-      // ),
-
       body: Stack(
         children: [
-          MobileScanner(
-              // allowDuplicates: false,
-              controller: controller,
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                final Uint8List? image = capture.image;
+        MobileScanner(
+        // allowDuplicates: false,
+        controller: controller,
+        onDetect: (capture) async{
+          final List<Barcode> barcodes = capture.barcodes;
+          final Uint8List? image = capture.image;
 
-                for (final barcode in barcodes) {
-                  debugPrint('Barcode found! ${barcode.rawValue.toString()}');
-                }
-                // final String? code = capture.raw;
-                // debugPrint('Barcode found! $code');
-                // final List<Barcode> barcodes = capture.barcodes;
-                //           final Uint8List? image = capture.image;
-                //           for (final barcode in barcodes) {
-                //             debugPrint('Barcode found! ${barcode.rawValue}');
-                //           }
-                //           if (image != null) {
-                //             showDialog(
-                //               context: context,
-                //               builder: (context) => Image(image: MemoryImage(image)),
-                //             );
-                //             Future.delayed(const Duration(seconds: 5), () {
-                //               Navigator.pop(context);
-                //             });
-                //           }
-              }),
+          for (final barcode in barcodes) {
+            debugPrint('Barcode found! ${barcode.rawValue.toString()}');
+            // func();
+         await   con.handleBarcode(barcode.rawValue.toString());
+             // launchURL(barcode.rawValue.toString());
+
+          }
+        },
+      ),
           QRScannerOverlay(overlayColour: Colors.black.withOpacity(0.5)),
           Positioned(
             top: 20,
