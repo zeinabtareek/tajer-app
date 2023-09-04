@@ -38,7 +38,9 @@ class _QrScreenState extends State<QrScreen> {
   bool isCam = false;
 
   //* toggle flash controller
-  MobileScannerController controller = MobileScannerController();
+  MobileScannerController controller = MobileScannerController(
+
+  );
 
   //* change page
   void closeScanner() {
@@ -54,8 +56,8 @@ class _QrScreenState extends State<QrScreen> {
       body: Stack(
         children: [
         MobileScanner(
-        // allowDuplicates: false,
         controller: controller,
+
         onDetect: (capture) async{
           final List<Barcode> barcodes = capture.barcodes;
           final Uint8List? image = capture.image;
