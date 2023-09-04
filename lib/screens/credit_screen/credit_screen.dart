@@ -30,7 +30,6 @@ class CreditScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: SizedBox(),
-
           actions: [
             IconButton(
                 onPressed: () {
@@ -91,34 +90,44 @@ class CreditScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child:Obx(() => controller.state == ViewState.busy
-    ? Center(
-        child: Padding(
-        padding: const EdgeInsets.only(top: 18.0),
-    child: CupertinoActivityIndicator(),
-    ),
-    )
-        : controller.model.items == null||controller.model.items!.isEmpty
-    ? Text('No data') // Handle the case where the model is null
-        : CreditBody(
-    context,
-    credit: controller.model.financialReport?.accountBalance ?? '',
-    requiredMoney: controller.model.financialReport?.requiredMony ?? '',
-    companyPercentage:
-    controller.model.financialReport?.companyPrecentage ?? '',
-    earnings: controller.model.financialReport?.earnings ?? '',
-    companyShare: controller.model.financialReport?.companyShare ?? '',
-    widget: ListView.builder(
-    itemCount: controller.model.items?.length ?? 0,
-    shrinkWrap: true,
-    itemBuilder: (context, index) {
-    return CustomOrderHistoryCards(
-    model: controller.model.items![index],
-    );
-    },
-    ),
-    ),
-    ),
+        child: Obx(
+          () => controller.state == ViewState.busy
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 18.0),
+                    child: CupertinoActivityIndicator(),
+                  ),
+                )
+              : controller.model?.items == null ||
+                      controller.model?.items!.isEmpty == true
+                  ? const Center(
+                      child: Text(
+                          'No data')) // Handle the case where the model is null
+                  : CreditBody(
+                      context,
+                      credit:
+                          controller.model?.financialReport?.accountBalance ??
+                              '',
+                      requiredMoney:
+                          controller.model?.financialReport?.requiredMony ?? '',
+                      companyPercentage: controller
+                              .model?.financialReport?.companyPrecentage ??
+                          '',
+                      earnings:
+                          controller.model?.financialReport?.earnings ?? '',
+                      companyShare:
+                          controller.model?.financialReport?.companyShare ?? '',
+                      widget: ListView.builder(
+                        itemCount: controller.model?.items?.length ?? 0,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return CustomOrderHistoryCards(
+                            model: controller.model!.items![index],
+                          );
+                        },
+                      ),
+                    ),
+        ),
       ),
     );
   }
@@ -131,7 +140,7 @@ Widget CreditBody(context,
     earnings,
     companyShare,
     widget}) {
-   return Directionality(
+  return Directionality(
     textDirection: TextDirection.rtl,
     child: Column(
       children: [
@@ -301,6 +310,5 @@ Widget CreditBody(context,
         widget,
       ],
     ),
-
   );
 }

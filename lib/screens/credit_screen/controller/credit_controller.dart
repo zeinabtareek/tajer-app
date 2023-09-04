@@ -9,7 +9,7 @@ import '../services/credit_services.dart';
 class CreditController extends BaseController{
   final selectedIndex = 3.obs;
   final services=CreditServices();
-  OrderHistoryModel model=OrderHistoryModel();
+  OrderHistoryModel? model;
   List optionsList=[
     'سنه',
     'شهر',

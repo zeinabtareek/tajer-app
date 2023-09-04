@@ -30,7 +30,6 @@ class SplashController extends BaseController {
     Timer(const Duration(seconds: 5), () async {
       token = await CacheHelper.getData(key: AppConstants.token) ?? '';
       if (token == '' || token == null) {
-        print('token ${token}');
         Get.offAll(() => const LogInScreen());
       } else {
         Get.offAll(() => const Home());
