@@ -65,7 +65,7 @@ dependencies:
   google_maps_flutter:
   geocoding:
   dropdown_button2: ^2.3.9
-
+#  qrscan:
   intl:
 dev_dependencies:
   flutter_test:
