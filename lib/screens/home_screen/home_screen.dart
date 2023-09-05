@@ -8,7 +8,9 @@ import 'package:tajer/enum/view_state.dart';
 import 'package:tajer/screens/orders_screen/orders_screen.dart';
 import '../../componants/custom_app_bar.dart';
 import '../../componants/custom_button.dart';
+import '../../componants/custom_text_field.dart';
 import '../../componants/drawer_notification.dart';
+import '../../constants/app_assets.dart';
 import '../../constants/style.dart';
 import '../../helpers/cache_helper.dart';
 import '../../utils/app_constants.dart';
@@ -24,8 +26,8 @@ class HomeScreen extends StatelessWidget {
     final controller = Get.put(HomeController());
     return Scaffold(
         extendBody: true,
-      // backgroundColor: Colors.green,
-      drawer: DrawerNotification(),
+        // backgroundColor: Colors.green,
+        drawer: DrawerNotification(),
         appBar: CustomAppBar(
           controller: controller,
           onTap: () {
@@ -44,14 +46,12 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-
-    //                   TextButton(onPressed: () async {
-    // var token;
-    //
-    // token = await CacheHelper.getData(key: AppConstants.token);
-    //                     controller.getHomeData(token);
-    //                   }, child: Text('mcjc')),
+                      //                   TextButton(onPressed: () async {
+                      // var token;
+                      //
+                      // token = await CacheHelper.getData(key: AppConstants.token);
+                      //                     controller.getHomeData(token);
+                      //                   }, child: Text('mcjc')),
                       GestureDetector(
                         onTap: () {
                           Get.to(() => const CreditScreen());
@@ -88,8 +88,8 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                        // controller.chart?.accountBalance.toString()??'',
-                                      '  ${controller.chart?.accountBalance.toString()??''}  رصيد التاجر   ',
+                                      // controller.chart?.accountBalance.toString()??'',
+                                      '  ${controller.chart?.accountBalance.toString() ?? ''}  رصيد التاجر   ',
                                       style: TextStyle(
                                           color: K.whiteColor, fontSize: 15.sp),
                                     ),
@@ -105,9 +105,11 @@ class HomeScreen extends StatelessWidget {
                                       style: TextStyle(
                                           color: K.whiteColor, fontSize: 15.sp),
                                     ),
-                                    Text( controller.chart?.accountBalance.toString()??'' ,
-
-                                        style: TextStyle(
+                                    Text(
+                                      controller.chart?.accountBalance
+                                              .toString() ??
+                                          '',
+                                      style: TextStyle(
                                           color: K.whiteColor, fontSize: 15.sp),
                                     ),
                                   ],
@@ -256,39 +258,228 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      controller.chart?.recentOrders?.isEmpty == true
-                          ? const SizedBox()
+                    GetBuilder<HomeController>(
+                      init:HomeController() ,
+                      builder: (controller)=>  controller.chart?.recentOrders?.isEmpty == true
+                          ?   Center(child: Column(
+                            children: [
+                              Image.asset(AssetImages.noOrders,height: 120.h,),
+                              Text('لا توجد طلبات ')
+                            ],
+                          ))//noOrders
                           : ListView.builder(
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
 
-                              // itemCount: 3,
+                              // itemCount: 3,.
                               itemCount: controller.chart?.recentOrders?.length,
-                              itemBuilder: (ctx, index) => CustomOrdersCard(
-                                  onAccept: () {
-                                    // Get.to(() => BillScreen(
-                                    //   order:controller.chart?.recentOrders?[index], total: null ,
-                                    // ));
+                              itemBuilder: (ctx, index) => GestureDetector(
+                                  onTap: () async {
+                                    await   controller.getOrder(
+                                    id: controller
+                                        .chart?.recentOrders?[index].id);
+                                    print('controller.total.value ${controller.total.value}');
+
+                                    await    Get.to(() => BillScreen(
+                                      order: controller.orderById,
+                                      total:controller.total,
+                                    ));
                                   },
-                                  clientName: controller
-                                      .chart?.recentOrders?[index].clientName,
-                                  invoicesCount: controller
-                                      .chart?.recentOrders?[index].invoicesCount
-                                      .toString(),
-                                  total: controller
-                                      .chart?.recentOrders?[index].total
-                                      .toString(),
-                                  totalBefore: controller
-                                      .chart?.recentOrders?[index].totalBefore
-                                      .toString(),
-                                  icon: GestureDetector(
-                                    child: const Icon(
-                                      Icons.more_vert,
-                                      size: 20,
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                  onCancel: () {})),
+                                  child: CustomOrdersCard(
+                                      onAccept: () async {
+                                        await controller.acceptOrder(
+                                            id: controller
+                                                .chart?.recentOrders?[index].id!
+                                                .toInt(),
+                                            con: context);
+                                      },
+                                      clientName: controller.chart
+                                          ?.recentOrders?[index].clientName,
+                                      isAccepted: controller.chart
+                                          ?.recentOrders?[index].status ==
+                                          'pending'
+                                          ? false
+                                          : true,
+                                      note: controller.chart
+                                          ?.recentOrders?[index].cancelationNote.toString()??'',
+                                      invoicesCount: controller.chart
+                                          ?.recentOrders?[index].invoicesCount
+                                          .toString(),
+                                      isRejected:controller
+                                          .chart?.recentOrders?[index].status.toString() ==
+                                          'canceled'
+                                          ? false
+                                          : true,
+                                      total: controller
+                                          .chart?.recentOrders?[index].total
+                                          .toString(),
+                                      totalBefore: controller.chart
+                                          ?.recentOrders?[index].totalBefore
+                                          .toString(),
+                                      icon: GestureDetector(
+                                        child: const Icon(
+                                          Icons.more_vert,
+                                          size: 20,
+                                        ),
+                                        onTap: () {},
+                                      ),
+                                      onCancel: () async {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              insetPadding: EdgeInsets.all(20),
+                                              contentPadding:
+                                                  EdgeInsets.all(10),
+                                              content: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color: Colors.black54,
+                                                  ),
+                                                  margin: EdgeInsets.all(10),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          // padding: EdgeInsets.all(10),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(20),
+                                                              topRight: Radius
+                                                                  .circular(20),
+                                                            ),
+                                                            // color: Colors.white,
+                                                          ),
+
+                                                          child: Row(
+                                                            children: [
+                                                              Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                child:
+                                                                    CircleAvatar(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  child:
+                                                                      IconButton(
+                                                                    icon: Icon(Icons
+                                                                        .cancel),
+                                                                    onPressed:
+                                                                        () {
+                                                                      controller
+                                                                          .showOverlay
+                                                                          .value = false;
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Column(
+                                                            children: [
+                                                              Directionality(
+                                                                textDirection:
+                                                                    TextDirection
+                                                                        .rtl,
+                                                                child:
+                                                                    Container(
+                                                                  child:
+                                                                      CustomAddressTextField(
+                                                                    maxLines:
+                                                                        10,
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width /
+                                                                        1.w,
+                                                                    hintText:
+                                                                        " اكتب هنا  "
+                                                                            .tr,
+                                                                    labelText:
+                                                                        "".tr,
+                                                                    onChanged:
+                                                                        (String
+                                                                            v) {
+                                                                      controller
+                                                                          .notes
+                                                                          .value = v;
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Button(
+                                                                  color: Color(
+                                                                      0xfffcf2f4),
+                                                                  text:
+                                                                      'الغاء الطلب'
+                                                                          .tr,
+                                                                  size: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width /
+                                                                      1.5.w,
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width /
+                                                                      9.h,
+                                                                  isFramed:
+                                                                      true,
+                                                                  fontSize:
+                                                                      22.sp,
+                                                                  onPressed:
+                                                                      () async {
+                                                                    controller
+                                                                        .cancelOrder(
+                                                                      note: controller
+                                                                          .notes
+                                                                          .value,
+                                                                      id: controller
+                                                                          .chart
+                                                                          ?.recentOrders?[
+                                                                              index]
+                                                                          .id!
+                                                                          .toInt(),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )),
+                                            );
+                                          },
+                                        );
+                                      })),
+                            )
+                            )
                     ],
                   ),
                 ),
@@ -385,27 +576,28 @@ class CustomOrdersCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ClipOval(
-                  child:  Container(
-                    // color: Colors.green,
-                    height: 70,
-                    width: 90,
-                    decoration: K.boxDecorationLightGrey,
-                    child: CachedNetworkImage(
-                        imageUrl:  image.toString(),
-                        // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR34hPo9zGkYxB2NKePgvPeImdm-CDTsHPrt4DFUyU_4A&s",
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.image),
-                        fadeInDuration: Duration.zero,
-                        fadeOutDuration: Duration.zero,
-                      ),
-                  )
-                  // Image.asset(
-                  //   'assets/images/test.png',
-                  //   fit: BoxFit.cover,
-                  // ),
-                ),
+                    child: Container(
+                  // color: Colors.green,
+                  height: 70,
+                  width: 90,
+                  decoration: K.boxDecorationLightGrey,
+                  child: CachedNetworkImage(
+                    imageUrl: image.toString(),
+                    // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR34hPo9zGkYxB2NKePgvPeImdm-CDTsHPrt4DFUyU_4A&s",
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        Center(child: CupertinoActivityIndicator()),
+                    errorWidget: (context, url, error) => Icon(Icons.image),
+                    fadeInDuration: Duration.zero,
+                    fadeOutDuration: Duration.zero,
+                  ),
+                )
+                    // Image.asset(
+                    //   'assets/images/test.png',
+                    //   fit: BoxFit.cover,
+                    // ),
+                    ),
                 // K.sizedboxW,
                 Column(
                   children: [
@@ -447,15 +639,20 @@ class CustomOrdersCard extends StatelessWidget {
           // isAccepted ==false?
           isRejected == true
               ? SizedBox()
-          :Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('تم الالغاء',style: K.boldBlackSmall,),
-              Text(note.toString(),style: K.boldBlackSmall,),
-              // Text('خارج نطاق التوصيل',style: K.boldBlackSmall,),
-            ],
-          ),
-
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'تم الالغاء',
+                      style: K.boldBlackSmall,
+                    ),
+                    Text(
+                      note.toString(),
+                      style: K.boldBlackSmall,
+                    ),
+                    // Text('خارج نطاق التوصيل',style: K.boldBlackSmall,),
+                  ],
+                ),
 
           isAccepted == true
               ? SizedBox()

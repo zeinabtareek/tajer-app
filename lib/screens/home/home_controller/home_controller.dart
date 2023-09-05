@@ -7,16 +7,24 @@ import 'package:tajer/model/home_model.dart';
 import 'package:tajer/screens/home/services/home_services.dart';
 
 import '../../../helpers/cache_helper.dart';
+import '../../../model/order_details_model.dart';
 import '../../../utils/app_constants.dart';
+import '../../orders_screen/services/order_services.dart';
 
 class HomeController extends BaseController {
   final service = HomeService();
+  final orderService = OrderServices();
+  OrderDetailsModel? orderById;
+
   HomeModel? chart;
   HomeModel? data;
   final activePage = 3.obs;
   final isLoading = false.obs;
   final titles = <String>['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
   final showingBarGroups = <BarChartGroupData>[].obs;
+  final total=0.0.obs;
+  final showOverlay = false.obs;
+  final notes = ''.obs;
 
   jumpToPage(int index) {
     activePage.value = index;
@@ -81,7 +89,9 @@ class HomeController extends BaseController {
     isLoading.value = true;
     try {
       chart = await HomeService.getChart(token);
-      print('balance ${chart!.accountBalance}');
+
+         update();
+
       return data;
     } catch (error) {
       print('$error');
@@ -107,5 +117,38 @@ class HomeController extends BaseController {
         ),
       ],
     );
+  }
+  void showOverlayF() {
+    showOverlay.value = true;
+  }
+
+  void hideOverlay() {
+    showOverlay.value = false;
+  }
+
+  cancelOrder({int? id, String? note}) async {
+    await orderService.cancelOrder(id: id, note: note);
+    Get.back();
+    update();
+
+  }
+
+  acceptOrder({int? id, con}) async {
+    await orderService.acceptOrder(id: id, context: con).then((v) async {
+      await getHomeData(token);
+    });
+
+    update();
+
+  }
+
+  getOrder({int? id}) async {
+    orderById = await orderService.getOrderById(id: id);
+    orderById?.data?.invoices?.forEach((element) {
+      total.value+=double.parse( element.total.toString());
+    });
+    print('total.value ${total.value}');
+    print(orderById!.toJson());
+    update();
   }
 }

@@ -345,33 +345,50 @@ class Day {
 }
 
 class RecentOrders {
-    dynamic id;
+    int? id;
     String? clientName;
-    dynamic clientImage;
-    dynamic orderNumber;
-    dynamic total;
-    dynamic totalBefore;
-    dynamic invoicesCount;
+    Null? clientImage;
+    int? orderNumber;
+    int? total;
+    int? totalBefore;
+    String? status;
+    Null? cancelationNote;
+    int? invoicesCount;
 
-    RecentOrders({
-        this.id,
-        this.clientName,
-        this.clientImage,
-        this.orderNumber,
-        this.total,
-        this.totalBefore,
-        this.invoicesCount,
-    });
+    RecentOrders(
+        {this.id,
+            this.clientName,
+            this.clientImage,
+            this.orderNumber,
+            this.total,
+            this.totalBefore,
+            this.status,
+            this.cancelationNote,
+            this.invoicesCount});
 
-    factory RecentOrders.fromJson(Map<String, dynamic> json) {
-        return RecentOrders(
-            id: json['id'],
-            clientName: json['client_name'],
-            clientImage: json['client_image'],
-            orderNumber: json['order_number'],
-            total: json['total'],
-            totalBefore: json['total_before'],
-            invoicesCount: json['invoices_count'],
-        );
+    RecentOrders.fromJson(Map<String, dynamic> json) {
+        id = json['id'];
+        clientName = json['client_name'];
+        clientImage = json['client_image'];
+        orderNumber = json['order_number'];
+        total = json['total'];
+        totalBefore = json['total_before'];
+        status = json['status'];
+        cancelationNote = json['cancelation_note'];
+        invoicesCount = json['invoices_count'];
+    }
+
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['id'] = this.id;
+        data['client_name'] = this.clientName;
+        data['client_image'] = this.clientImage;
+        data['order_number'] = this.orderNumber;
+        data['total'] = this.total;
+        data['total_before'] = this.totalBefore;
+        data['status'] = this.status;
+        data['cancelation_note'] = this.cancelationNote;
+        data['invoices_count'] = this.invoicesCount;
+        return data;
     }
 }

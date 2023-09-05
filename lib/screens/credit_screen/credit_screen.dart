@@ -100,9 +100,16 @@ class CreditScreen extends StatelessWidget {
                 )
               : controller.model?.items == null ||
                       controller.model?.items!.isEmpty == true
-                  ? const Center(
-                      child: Text(
-                          'No data')) // Handle the case where the model is null
+                  ?   Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          K.sizedboxH,
+                          Text(
+                              'لايوجد بيانات'),
+                        ],
+                      )) // Handle the case where the model is null
                   : CreditBody(
                       context,
                       credit:

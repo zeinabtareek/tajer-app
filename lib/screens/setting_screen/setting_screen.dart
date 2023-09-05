@@ -183,22 +183,26 @@ class SettingScreen extends StatelessWidget {
                                 padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ), child: Image.asset('assets/images/tiktok.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
+                                borderRadius: BorderRadius.circular(15)      ),
+                                child: Image.asset('assets/images/tiktok.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
                         Container(
                             padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ), child: Image.asset('assets/images/instgram.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
+                                borderRadius: BorderRadius.circular(15)      ),
+                            child: Image.asset('assets/images/instgram.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
                         Container(
                             padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ), child: Image.asset('assets/images/youtube.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
+                                borderRadius: BorderRadius.circular(15)      ),
+                            child: Image.asset('assets/images/youtube.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
                         Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ), child: Image.asset('assets/images/facbook.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
+                                borderRadius: BorderRadius.circular(15)      ),
+                            child: Image.asset('assets/images/facbook.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
                             K.sizedboxW,  ],
                         ),
                         K.sizedboxH,

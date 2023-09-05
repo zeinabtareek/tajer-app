@@ -685,7 +685,18 @@ Widget buildSearchResult(context) {
   } else if (controller.searchedOrder == null) {
     return Text('No data found');
   } else {
-    return  CustomOrdersCard(
+    return  GestureDetector(
+        onTap: () async {
+      await   controller.getOrder(
+          id: controller.searchedOrder.id);
+      print('controller.total.value ${controller.total.value}');
+
+      await    Get.to(() => BillScreen(
+        order: controller.orderById,
+        total:controller.total,
+      ));
+    },
+  child: CustomOrdersCard(
         isAccepted:
         controller.searchedOrder.status ==
             'pending'
@@ -1071,7 +1082,7 @@ Widget buildSearchResult(context) {
               );
             },
           );
-        });
+        }));
   }}
 
 
