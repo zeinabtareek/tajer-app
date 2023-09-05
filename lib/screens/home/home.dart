@@ -144,6 +144,7 @@ class Home extends StatelessWidget {
             ],
           ))),
         bottomNavigationBar: Obx(() =>CurvedNavigationBar(
+          key: bottomNavigationKey,
           color: Colors.white,
           backgroundColor: Colors.transparent,
           buttonBackgroundColor: Colors.white,

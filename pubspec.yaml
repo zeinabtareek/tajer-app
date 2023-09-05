@@ -51,7 +51,7 @@ dependencies:
   shared_preferences: 
   dio:
   ansicolor:
-  flutter_svg:
+  flutter_svg: ^2.0.7
   pretty_dio_logger:
   get_it:
   firebase_core:

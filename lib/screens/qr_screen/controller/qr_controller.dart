@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:tajer/screens/qr_screen/services/qr_services.dart';
 
+import '../../../data/data.dart';
+
 class QrController extends GetxController{
 
 
@@ -23,6 +25,8 @@ class QrController extends GetxController{
     if (isTextBarcode(barcode)) {
       // Barcode contains only text
       scanToCreateAnOrder(barcode);
+
+
     } else {
       // Barcode contains numbers or alphanumeric characters
       // Handle accordingly

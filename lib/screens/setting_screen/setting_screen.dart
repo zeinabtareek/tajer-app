@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../componants/custom_button.dart';
@@ -175,38 +177,107 @@ class SettingScreen extends StatelessWidget {
                             : SizedBox(),
                         K.sizedboxH,
                         K.sizedboxH,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            K.sizedboxW,
-                            Container(
-                                padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ),
-                                child: Image.asset('assets/images/tiktok.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
-                        Container(
-                            padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ),
-                            child: Image.asset('assets/images/instgram.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
-                        Container(
-                            padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ),
-                            child: Image.asset('assets/images/youtube.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
-                        Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: K.mainColor.withOpacity(.088),
-                                borderRadius: BorderRadius.circular(15)      ),
-                            child: Image.asset('assets/images/facbook.png',color: K.semiDarkRed,height: 40.h,width: 40.w,)),
-                            K.sizedboxW,  ],
-                        ),
+
+                        controller.socialModel.data!=null?    Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ...List.generate(controller.socialModel.data!.length, (index) =>  GestureDetector(
+                                onTap: (){
+                                  controller.launch(url: controller.socialModel.data?[index].url.toString());
+                                },
+                                child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: K.mainColor.withOpacity(.088),
+                                         borderRadius: BorderRadius.circular(15)),
+                                    child:SvgPicture.network(controller.socialModel.data![index].icon.toString()??'',
+                                      placeholderBuilder: (BuildContext context) => CircularProgressIndicator(),
+                                    ),
+
+
+
+                                      height: 55.h,
+                                      width: 55.w,
+                                    )),
+                              ),
+                              ],
+                          ),
+                        ):SizedBox(),
+
+
+                        //     Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: [
+                        //     K.sizedboxW,
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //       },
+                        //       child: Container(
+                        //           padding: EdgeInsets.all(10),
+                        //           decoration: BoxDecoration(
+                        //               color: K.mainColor.withOpacity(.088),
+                        //               borderRadius: BorderRadius.circular(15)),
+                        //           child: Image.asset(
+                        //             'assets/images/tiktok.png',
+                        //             color: K.semiDarkRed,
+                        //             height: 40.h,
+                        //             width: 40.w,
+                        //           )),
+                        //     ),
+                        //     GestureDetector(
+                        //       onTap: (){
+                        //         controller.launch();
+                        //       },
+                        //       child: Container(
+                        //           padding: EdgeInsets.all(10),
+                        //           decoration: BoxDecoration(
+                        //               color: K.mainColor.withOpacity(.088),
+                        //               borderRadius: BorderRadius.circular(15)),
+                        //           child: Image.asset(
+                        //             'assets/images/instgram.png',
+                        //             color: K.semiDarkRed,
+                        //             height: 40.h,
+                        //             width: 40.w,
+                        //           )),
+                        //     ),
+                        //     GestureDetector(
+                        //       onTap: (){
+                        //         controller.launch();
+                        //       },
+                        //       child: Container(
+                        //           padding: EdgeInsets.all(10),
+                        //           decoration: BoxDecoration(
+                        //               color: K.mainColor.withOpacity(.088),
+                        //               borderRadius: BorderRadius.circular(15)),
+                        //           child: Image.asset(
+                        //             'assets/images/youtube.png',
+                        //             color: K.semiDarkRed,
+                        //             height: 40.h,
+                        //             width: 40.w,
+                        //           )),
+                        //     ),
+                        //     GestureDetector(
+                        //       onTap: (){
+                        //         controller.launch();
+                        //       },
+                        //       child: Container(
+                        //           padding: EdgeInsets.all(10),
+                        //           decoration: BoxDecoration(
+                        //               color: K.mainColor.withOpacity(.088),
+                        //               borderRadius: BorderRadius.circular(15)),
+                        //           child: Image.asset(
+                        //             'assets/images/facbook.png',
+                        //             color: K.semiDarkRed,
+                        //             height: 40.h,
+                        //             width: 40.w,
+                        //           )),
+                        //     ),
+                        //     K.sizedboxW,
+                        //   ],
+                        // ),
                         K.sizedboxH,
-                        // K.sizedboxH,
 
                         Column(
                           children: [

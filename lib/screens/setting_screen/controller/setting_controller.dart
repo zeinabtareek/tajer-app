@@ -6,6 +6,7 @@ import 'package:tajer/screens/log_in_screen/login_screen.dart';
 import 'package:tajer/screens/setting_screen/services/setting_services.dart';
 import 'package:tajer/screens/splash_screen/splash_screen.dart';
 import 'package:tajer/utils/app_constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../model/setting_model.dart';
 
 class SettingsController extends GetxController {
@@ -53,11 +54,10 @@ class SettingsController extends GetxController {
     isLoading.value = false;
   }
 
-
-  getSocial(token)async{
+  getSocial(token) async {
     socialLoading.value = true;
     try {
-     socialModel=await SettingServices.getSocial(token);
+      socialModel = await SettingServices.getSocial(token);
       return model;
     } catch (error) {
       print('$error');
@@ -154,5 +154,20 @@ class SettingsController extends GetxController {
     Get.offAll(() => LogInScreen());
   }
 
+  Future<void> launch({String? url}) async {
+    if (!await launchUrl(
+      Uri.parse(url!),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
+  Future<void> makePhoneCall({String? url}) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: url,
+    );
+    await launchUrl(launchUri);
+  }
 }
