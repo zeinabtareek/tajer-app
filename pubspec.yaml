@@ -67,6 +67,7 @@ dependencies:
   dropdown_button2: ^2.3.9
 #  qrscan:
   intl:
+  url_launcher: ^6.1.12
 dev_dependencies:
   flutter_test:
     sdk: flutter
