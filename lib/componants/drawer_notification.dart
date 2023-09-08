@@ -18,27 +18,7 @@ class DrawerNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(NotificationScreenController());
     // final co
-    return Drawer(
-      // Scaffold(
-      //   appBar: AppBar(
-      //     backgroundColor: Colors.transparent,
-      //     title: Text(
-      //       'الاشعارات',
-      //       style: K.boldBlackText,
-      //     ),
-      //     leading: SizedBox(),
-      //     actions: [
-      //       IconButton(
-      //           onPressed: () {
-      //             Get.back();
-      //           },
-      //           icon: Icon(
-      //             Icons.arrow_forward_ios_outlined,
-      //             size: 20,
-      //           ))
-      //     ],
-      //   ),
-      //   body:
+    return Drawer( 
    child:     Obx(
               () => controller.state == ViewState.busy
               ? const Center(
@@ -58,7 +38,12 @@ class DrawerNotification extends StatelessWidget {
                                 style: K.boldBlackText,),
                       backgroundColor: Colors.transparent
                     ),
-                    ListView.builder(
+                   Obx(()=>  controller.state == ViewState.busy
+                         ? const Center(
+                       child: CupertinoActivityIndicator(),
+                     )  :controller.notifications!.data!.isEmpty ?
+                       noNotificationWidget():
+                   ListView.builder(
                         itemCount: controller.notifications!.data!.length,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
@@ -276,7 +261,7 @@ class DrawerNotification extends StatelessWidget {
                             ],
                           );
                         })
-                  ],
+                   )                  ],
                 ),
               ),
             ),
@@ -284,4 +269,14 @@ class DrawerNotification extends StatelessWidget {
         ));
     // child:
   }
+}
+Widget noNotificationWidget(){
+  return Column(
+    children: [
+      Image.asset('assets/images/no_notification.png'),
+      K.sizedboxH,
+      Text('لا يوجد إشعارات حتى الآن'),
+      Text('عندما تتلقى إشعارات، ستظهر هنا',style: TextStyle(fontSize: 12,color: K.mainColor),),
+    ],
+  );
 }

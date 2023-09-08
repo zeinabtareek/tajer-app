@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../componants/custom_button.dart';
 import '../../componants/custom_text_field.dart';
 import '../../constants/style.dart';
+import '../../utils/overlay_helper.dart';
 import '../home/home.dart';
 import '../support_screen/support_screen.dart';
 import 'controller/login_controller.dart';
@@ -47,16 +48,22 @@ class LogInScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Button(
+        Obx(()=>    Button(
                 color: K.primaryColor,
-                text: 'تسجيل الدخول'.tr,
+                text:controller .isLoadings.value==true?'انتظر من فضلك ...':'تسجيل الدخول'.tr,
                 size: MediaQuery.of(context).size.width / 1.5.w,
                 height: MediaQuery.of(context).size.width / 9.h,
                 isFramed: false,
                 fontSize: 22.sp,
                 onPressed: () async {
-                  controller.login();
-                  // Get.to(Home());
+    if(controller.connection.connectivity.value==0){
+    OverlayHelper.showErrorToast(
+    Get.overlayContext!, 'لا يوجد اتصال بالإنترنت ');
+    }
+    else {
+      controller.login();
+      // Get.to(Home());
+    }
                 }),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.start,
@@ -71,7 +78,7 @@ class LogInScreen extends StatelessWidget {
             //       },
             //     )
             //   ],
-            // )
+            )
           ]),
     )));
   }

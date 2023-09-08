@@ -99,7 +99,11 @@ class SupportScreen extends StatelessWidget {
                                                     .messageModel!
                                                     .data![index]
                                                     .senderType ==
-                                                "user"
+                                                "user"&&controller
+                                            .messageModel!
+                                            .data?[index]==controller
+                                            .messageModel!
+                                            .data?.last
                                             ? 0
                                             : 20),
                                         topRight: const Radius.circular(20),

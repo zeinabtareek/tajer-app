@@ -3,17 +3,20 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 // import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tajer/helpers/cache_helper.dart';
 import 'package:tajer/helpers/local_notification.dart';
 import 'package:tajer/model/notification_model.dart';
+import 'package:tajer/utils/initial_binding.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:qrscan/qrscan.dart' as scanner;
 
 import 'package:tajer/screens/splash_screen/splash_screen.dart';
 import 'package:tajer/utils/app_constants.dart';
 import 'constants/style.dart';
+import 'helpers/connectivity.dart';
 import 'helpers/get_di.dart' as di;
 import 'package:firebase_core/firebase_core.dart';
 
@@ -43,8 +46,7 @@ main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Map<String, Map<String, String>> languages = await di.init();
-  await Firebase.initializeApp();
-  await notificationService.init();
+   await notificationService.init();
   FirebaseMessaging.onBackgroundMessage(messageHandler);
   firebaseMessagingListener();
   print(CacheHelper.getData(key: AppConstants.token));
@@ -65,6 +67,8 @@ class MyApp extends StatelessWidget {
           ]);
           return GetMaterialApp(
             theme: K.appTheme,
+            initialBinding: InitialBinding(),
+
             // translations: Languages(),
             // locale: language,
             fallbackLocale: Locale('ar'),
@@ -84,57 +88,7 @@ class MyApp extends StatelessWidget {
 
 
 
-class Test extends StatefulWidget {
-  const Test({Key? key}) : super(key: key);
 
-  @override
-  State<Test> createState() => _TestState();
-}
-
-class _TestState extends State<Test> {
-  String ?scanresult; //varaible for scan result text
-
-  @override
-  void initState() {
-    scanresult = "none"; //innical value of scan result is "none"
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title:Text("QR or Bar code Scanner"),
-          backgroundColor: Colors.redAccent
-      ),
-      body:Container(
-          alignment: Alignment.topCenter, //inner widget alignment to center
-          padding: EdgeInsets.all(20),
-          child:Column(
-            children:[
-              Container(
-                  child: Text("Scan Result: " + scanresult!)
-              ),
-              Container(
-                  margin: EdgeInsets.only(top:30),
-                  child: TextButton( //button to start scanning
-                      // color: Colors.redAccent,
-                      // colorBrightness: Brightness.dark,
-                      onPressed: () async {
-                        // scanresult = await scanner.scan();
-                        setState(() { //refresh UI to show the result on app
-                        });
-                      },
-                      child: Text("Scan QR or Bar Code")
-                  )
-              )
-            ],
-          )
-      ),
-    );
-  }
-// }
-}
 
 
 

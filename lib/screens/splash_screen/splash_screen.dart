@@ -9,6 +9,8 @@ import 'package:tajer/screens/log_in_screen/login_screen.dart';
 import 'package:tajer/screens/splash_screen/controller/splash_controller.dart';
 
 import '../../constants/style.dart';
+import '../../helpers/connectivity.dart';
+import '../../helpers/logger/logger.dart';
 import '../home/home.dart';
 
  class SplashScreen extends StatelessWidget {
@@ -16,7 +18,8 @@ import '../home/home.dart';
   @override
   Widget build(BuildContext context) {
     final controller=Get.put(SplashController());
-     return Scaffold(
+
+    return Scaffold(
        backgroundColor: K.whiteColor,
        body: Center(
         child:  Column(

@@ -8,6 +8,7 @@ import 'package:tajer/screens/log_in_screen/login_screen.dart';
 import 'package:tajer/screens/splash_screen/services/splah_services.dart';
 import 'package:tajer/utils/app_constants.dart';
 
+import '../../../helpers/connectivity.dart';
 import '../../home/home.dart';
 
 class SplashController extends BaseController {
@@ -18,6 +19,7 @@ class SplashController extends BaseController {
   @override
   onInit() async {
     super.onInit();
+
     firebaseMessaging.getToken().then((token) async {
       await CacheHelper.saveData(
           key: AppConstants.fcmToken, value: token.toString());

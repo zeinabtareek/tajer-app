@@ -33,7 +33,9 @@ class SettingServices {
     try {
       final response = await dio!.post(AppConstants.logout);
       if (response.statusCode == 200) {
-        showCustomSnackBar(isError: false, message: "تم تسجيل الخروج ");
+        OverlayHelper.showSuccessToast(
+            Get.overlayContext!, "تسجيل الخروج بنجاح");
+        // showCustomSnackBar(isError: false, message: "تم تسجيل الخروج ");
       } else {
         HandleError.handleException(response: response.statusCode);
       }

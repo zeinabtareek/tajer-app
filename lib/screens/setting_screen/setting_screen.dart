@@ -193,7 +193,7 @@ class SettingScreen extends StatelessWidget {
                                         color: K.mainColor.withOpacity(.088),
                                          borderRadius: BorderRadius.circular(15)),
                                     child:SvgPicture.network(controller.socialModel.data![index].icon.toString()??'',
-                                      placeholderBuilder: (BuildContext context) => CircularProgressIndicator(),
+                                      placeholderBuilder: (BuildContext context) => CupertinoActivityIndicator(),
                                     ),
 
 
@@ -205,78 +205,6 @@ class SettingScreen extends StatelessWidget {
                               ],
                           ),
                         ):SizedBox(),
-
-
-                        //     Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //   children: [
-                        //     K.sizedboxW,
-                        //     GestureDetector(
-                        //       onTap: () {
-                        //       },
-                        //       child: Container(
-                        //           padding: EdgeInsets.all(10),
-                        //           decoration: BoxDecoration(
-                        //               color: K.mainColor.withOpacity(.088),
-                        //               borderRadius: BorderRadius.circular(15)),
-                        //           child: Image.asset(
-                        //             'assets/images/tiktok.png',
-                        //             color: K.semiDarkRed,
-                        //             height: 40.h,
-                        //             width: 40.w,
-                        //           )),
-                        //     ),
-                        //     GestureDetector(
-                        //       onTap: (){
-                        //         controller.launch();
-                        //       },
-                        //       child: Container(
-                        //           padding: EdgeInsets.all(10),
-                        //           decoration: BoxDecoration(
-                        //               color: K.mainColor.withOpacity(.088),
-                        //               borderRadius: BorderRadius.circular(15)),
-                        //           child: Image.asset(
-                        //             'assets/images/instgram.png',
-                        //             color: K.semiDarkRed,
-                        //             height: 40.h,
-                        //             width: 40.w,
-                        //           )),
-                        //     ),
-                        //     GestureDetector(
-                        //       onTap: (){
-                        //         controller.launch();
-                        //       },
-                        //       child: Container(
-                        //           padding: EdgeInsets.all(10),
-                        //           decoration: BoxDecoration(
-                        //               color: K.mainColor.withOpacity(.088),
-                        //               borderRadius: BorderRadius.circular(15)),
-                        //           child: Image.asset(
-                        //             'assets/images/youtube.png',
-                        //             color: K.semiDarkRed,
-                        //             height: 40.h,
-                        //             width: 40.w,
-                        //           )),
-                        //     ),
-                        //     GestureDetector(
-                        //       onTap: (){
-                        //         controller.launch();
-                        //       },
-                        //       child: Container(
-                        //           padding: EdgeInsets.all(10),
-                        //           decoration: BoxDecoration(
-                        //               color: K.mainColor.withOpacity(.088),
-                        //               borderRadius: BorderRadius.circular(15)),
-                        //           child: Image.asset(
-                        //             'assets/images/facbook.png',
-                        //             color: K.semiDarkRed,
-                        //             height: 40.h,
-                        //             width: 40.w,
-                        //           )),
-                        //     ),
-                        //     K.sizedboxW,
-                        //   ],
-                        // ),
                         K.sizedboxH,
 
                         Column(
