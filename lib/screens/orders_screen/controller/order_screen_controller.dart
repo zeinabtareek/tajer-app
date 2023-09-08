@@ -25,6 +25,7 @@ class OrderScreenController extends BaseController {
   final notes = ''.obs;
   final showOverlay = false.obs;
   final searchLoader = false.obs;
+  final loading=false.obs;
 final total =0.0.obs;
   // bool _showOverlay = false;
   Orders searchedOrder=Orders();
@@ -73,12 +74,20 @@ final total =0.0.obs;
 
   cancelOrder({int? id, String? note}) async {
     await service.cancelOrder(id: id, note: note);
+    loading.value=true;
+    order = await service.getAllOrder(status: "pending");
+    orders.assignAll(order?.data ?? []);
+    loading.value=false;
     Get.back();
   }
 
   acceptOrder({int? id, con}) async {
     await service.acceptOrder(id: id, context: con);
+    loading.value=true;
 
+    order = await service.getAllOrder(status: "pending");
+    orders.assignAll(order?.data ?? []);
+    loading.value=false;
     // await service.cancelOrder(id: id);
     // Get.back();
   }

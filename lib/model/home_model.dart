@@ -347,12 +347,12 @@ class Day {
 class RecentOrders {
     int? id;
     String? clientName;
-    Null? clientImage;
+    String? clientImage;
     int? orderNumber;
     int? total;
     int? totalBefore;
     String? status;
-    Null? cancelationNote;
+    String? cancelationNote;
     int? invoicesCount;
 
     RecentOrders(
@@ -368,14 +368,14 @@ class RecentOrders {
 
     RecentOrders.fromJson(Map<String, dynamic> json) {
         id = json['id'];
-        clientName = json['client_name'];
-        clientImage = json['client_image'];
-        orderNumber = json['order_number'];
-        total = json['total'];
-        totalBefore = json['total_before'];
-        status = json['status'];
-        cancelationNote = json['cancelation_note'];
-        invoicesCount = json['invoices_count'];
+        clientName = json['client_name']??'';
+        clientImage = json['client_image']??'';
+        orderNumber = json['order_number']??'';
+        total = json['total']??'';
+        totalBefore = json['total_before']??'';
+        status = json['status']??'';
+        cancelationNote = json['cancelation_note']??'';
+        invoicesCount = json['invoices_count']??'';
     }
 
     Map<String, dynamic> toJson() {

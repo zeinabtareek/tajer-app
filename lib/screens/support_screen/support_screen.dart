@@ -60,7 +60,7 @@ class SupportScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ListView.builder(
-                        itemCount: controller.messageModel!.data!.length,
+                        itemCount: controller.messageModel?.data?.length,
                         shrinkWrap: true,
                         controller: controller.scrollController,
                         reverse: false,
@@ -71,13 +71,12 @@ class SupportScreen extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              mainAxisAlignment: controller.messageModel!
-                                          .data![index].senderType ==
+                              mainAxisAlignment: controller.messageModel?.data?[index].senderType ==
                                       "user"
                                   ? MainAxisAlignment.start
                                   : MainAxisAlignment.end,
                               children: [
-                                controller.messageModel!.data![index]
+                                controller.messageModel?.data?[index]
                                             .senderType ==
                                         "user"
                                     ? ClipOval(
@@ -95,36 +94,27 @@ class SupportScreen extends StatelessWidget {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(controller
-                                                    .messageModel!
-                                                    .data![index]
+                                        bottomLeft: Radius.circular(controller.messageModel?.data?[index]
                                                     .senderType ==
-                                                "user"&&controller
-                                            .messageModel!
-                                            .data?[index]==controller
-                                            .messageModel!
-                                            .data?.last
+                                                "user"&&controller .messageModel?.data?[index]==controller .messageModel?.data?.last
                                             ? 0
                                             : 20),
                                         topRight: const Radius.circular(20),
-                                        bottomRight: Radius.circular(controller
-                                                    .messageModel!
-                                                    .data![index]
+                                        bottomRight: Radius.circular(controller.messageModel?.data?[index]
                                                     .senderType ==
                                                 "user"
                                             ? 20
                                             : 0),
                                         topLeft: const Radius.circular(20),
                                       ),
-                                      color: (controller.messageModel!
-                                                  .data![index].senderType ==
+                                      color: (controller.messageModel?.data?[index].senderType ==
                                               "user"
                                           ? Colors.grey.shade200
                                           : Colors.grey.shade400),
                                     ),
                                     padding: const EdgeInsets.all(16),
                                     child: Text(
-                                      controller.messageModel!.data![index]
+                                      controller.messageModel?.data?[index]
                                               .message ??
                                           "",
                                       style: const TextStyle(fontSize: 15),
@@ -132,7 +122,7 @@ class SupportScreen extends StatelessWidget {
                                   ),
                                 ),
                                 K.sizedboxW,
-                                controller.messageModel!.data![index]
+                                controller.messageModel?.data?[index]
                                             .senderType !=
                                         "user"
                                     ? ClipOval(

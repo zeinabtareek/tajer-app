@@ -131,7 +131,8 @@ class HomeScreen extends StatelessWidget {
                           height: context.height / 3,
                           child: BarChart(
                             BarChartData(
-                              maxY: 20,
+                              maxY: double.parse(controller.chart!.ordersChart!.max.toString()),
+                              minY:double.parse(controller.chart!.ordersChart!.min.toString()),
                               barTouchData: BarTouchData(
                                 touchTooltipData: BarTouchTooltipData(
                                   tooltipBgColor: Colors.grey,
@@ -205,36 +206,36 @@ class HomeScreen extends StatelessWidget {
                                     reservedSize: 42,
                                   ),
                                 ),
-                                leftTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    reservedSize: 28,
-                                    interval: 1,
-                                    getTitlesWidget: (d, m) {
-                                      String text;
-                                      if (d == 0) {
-                                        text = '1K';
-                                      } else if (d == 10) {
-                                        text = '5K';
-                                      } else if (d == 19) {
-                                        text = '10K';
-                                      } else {
-                                        return Container();
-                                      }
-                                      return SideTitleWidget(
-                                        axisSide: m.axisSide,
-                                        space: 0,
-                                        child: Text(text,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              // color: Color(0xff7589a2),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                            )),
-                                      );
-                                    },
-                                  ),
-                                ),
+                                // leftTitles: AxisTitles(
+                                //   sideTitles: SideTitles(
+                                //     showTitles: true,
+                                //     reservedSize: 28,
+                                //     interval: 1,
+                                //     getTitlesWidget: (d, m) {
+                                //       String text;
+                                //       if (d == 0) {
+                                //         text = '';
+                                //       } else if (d == 10) {
+                                //         text = '';
+                                //       } else if (d == 19) {
+                                //         text = '';
+                                //       } else {
+                                //         return Container();
+                                //       }
+                                //       return SideTitleWidget(
+                                //         axisSide: m.axisSide,
+                                //         space: 0,
+                                //         child: Text(text,
+                                //             style: const TextStyle(
+                                //               color: Colors.black,
+                                //               // color: Color(0xff7589a2),
+                                //               fontWeight: FontWeight.bold,
+                                //               fontSize: 14,
+                                //             )),
+                                //       );
+                                //     },
+                                //   ),
+                                // ),
                               ),
                               borderData: FlBorderData(
                                 show: false,
@@ -270,8 +271,6 @@ class HomeScreen extends StatelessWidget {
                           : ListView.builder(
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
-
-                              // itemCount: 3,.
                               itemCount: controller.chart?.recentOrders?.length,
                               itemBuilder: (ctx, index) => GestureDetector(
                                   onTap: () async {
@@ -334,6 +333,7 @@ class HomeScreen extends StatelessWidget {
                                               contentPadding:
                                                   EdgeInsets.all(10),
                                               content: Container(
+
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -347,6 +347,7 @@ class HomeScreen extends StatelessWidget {
                                                           MainAxisSize.min,
                                                       children: [
                                                         Container(
+
                                                           margin:
                                                               EdgeInsets.all(
                                                                   10),
@@ -367,6 +368,7 @@ class HomeScreen extends StatelessWidget {
                                                           child: Row(
                                                             children: [
                                                               Container(
+
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   shape: BoxShape
@@ -385,6 +387,7 @@ class HomeScreen extends StatelessWidget {
                                                                         .cancel),
                                                                     onPressed:
                                                                         () {
+                                                                      Get.back();
                                                                       controller
                                                                           .showOverlay
                                                                           .value = false;
@@ -407,7 +410,10 @@ class HomeScreen extends StatelessWidget {
                                                                         .rtl,
                                                                 child:
                                                                     Container(
-                                                                  child:
+                                                                      // height:300,
+
+
+                                                                      child:
                                                                       CustomAddressTextField(
                                                                     maxLines:
                                                                         10,

@@ -98,7 +98,8 @@ class CreditScreen extends StatelessWidget {
                     child: CupertinoActivityIndicator(),
                   ),
                 )
-              : controller.model?.items == null ||
+              :
+          controller.model?.items == null ||
                       controller.model?.items!.isEmpty == true
                   ?   Center(
                       child: Column(
@@ -110,7 +111,8 @@ class CreditScreen extends StatelessWidget {
                               'لايوجد بيانات'),
                         ],
                       )) // Handle the case where the model is null
-                  : CreditBody(
+                  :
+          CreditBody(
                       context,
                       credit:
                           controller.model?.financialReport?.accountBalance ??

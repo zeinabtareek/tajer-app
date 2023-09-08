@@ -127,7 +127,9 @@ class HomeController extends BaseController {
   }
 
   cancelOrder({int? id, String? note}) async {
-    await orderService.cancelOrder(id: id, note: note);
+    await orderService.cancelOrder(id: id, note: note).then((v) async {
+      await getHomeData(token);
+    });
     Get.back();
     update();
 

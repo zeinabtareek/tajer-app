@@ -26,7 +26,7 @@ class CreditServices{
       }
     }
   }
+//  {date: 2023-09-07, total: 60, company_share: 1.8, company_percentage: 3, earning: 58.2},
 
-
-
+//{date: 2023-09, total: 960, company_share: 28.8, company_percentage: 3, earning: 931.2}
 }

@@ -16,7 +16,6 @@ class SupportScreenController extends BaseController {
   @override
   onInit() async {
     super.onInit();
-
     setState(ViewState.busy);
     isLoading.value=true;
     messageModel = await services.getMessage();

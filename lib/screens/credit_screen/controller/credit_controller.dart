@@ -36,9 +36,8 @@ class CreditController extends BaseController{
     setState(ViewState.busy);
     // String selectedOption = optionsList[index];
     String filter = filterMappings[selectedOption] ?? '';
-
     model=  await services.getAllOrderHistory(filter: filter);
-
+print(model?.toJson());
     update();
     setState(ViewState.idle);
   }
