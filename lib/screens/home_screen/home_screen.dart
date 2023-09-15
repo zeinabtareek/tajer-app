@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         extendBody: true,
         // backgroundColor: Colors.green,
-        drawer: DrawerNotification(),
+        // drawer: DrawerNotification(),
         appBar: CustomAppBar(
           controller: controller,
           onTap: () {

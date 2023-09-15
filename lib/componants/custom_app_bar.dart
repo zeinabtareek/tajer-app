@@ -45,9 +45,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           GestureDetector(
             onTap: () {
-              Scaffold.of(context).openDrawer();
+              // Scaffold.of(context).openDrawer();
 
-              // Get.to(() => const NotificationScreen());
+              Get.to(() =>   NotificationScreen());
             },
             child: Icon(
               Icons.notifications_active,
