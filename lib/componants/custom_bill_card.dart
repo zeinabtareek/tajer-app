@@ -6,15 +6,15 @@ import '../screens/home_screen/home_screen.dart';
 
 class CustomBillCard extends StatelessWidget {
   const CustomBillCard(
-      {Key? key, this.orderNumber,this.image, this.name,this.desc, this.discount, this.price})
+      {Key? key, this.orderNumber,this.image, this.name,this.desc, this.discount, this.price, required this.currency})
       : super(key: key);
   final String? name;
   final String? price;
   final String? discount;
+  final String? currency;
   final String? image;
   final String? orderNumber;
   final String? desc;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,13 +29,11 @@ class CustomBillCard extends StatelessWidget {
         children: [
           Container(
             width: 90.0,
-            height: 90.0,
+            height: 70.0,
             decoration: BoxDecoration(
-              // shape: BoxShape.circle,
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 image: NetworkImage(image.toString()),
-                // image: AssetImage('assets/images/test.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -45,26 +43,21 @@ class CustomBillCard extends StatelessWidget {
               Text(
                 name ?? "",
                 style: K.boldBlackSmallText,
-              ),
+               ),
               K.sizedboxH,
               RichText(
                 text: TextSpan(
-                  text: ' عرض  ',
+                  text: '  ',
                   style: K.redTextStyle,
-                  // children:<InlineSpan> [
                   children: [
                     TextSpan(
-                      // text: 'عرض 2 ',
                       text: ' $discount ',
                       style: K.boldBlackSmallText,
                       // style:K.redTextStyle,
                     ), TextSpan(
-                      // text: 'عرض 2 ',
-                      text: ' دينار ',
-                      style: K.boldBlackSmallText,
-                      // style:K.redTextStyle,
+                       text: ' $currency ',
+                       style: K.boldBlackSmall,
                     ),
-                    // K.sizedboxW,
                     WidgetSpan(
                       child: CustomSlopText(
                         text: ' $price ',
@@ -75,9 +68,9 @@ class CustomBillCard extends StatelessWidget {
                 ),
               ),
               K.sizedboxH,
-              Text(
-               desc.toString(),
-              ),
+              // Text(
+              //  desc.toString(),
+              // ),
             ],
           ),
           K.sizedboxW,

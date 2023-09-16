@@ -28,7 +28,8 @@ class Orders {
       this.clientName, 
       this.clientImage, 
       this.orderNumber, 
-      this.total, 
+      this.currency,
+      this.total,
       this.totalBefore,
     this.status,
     this.cancelationNote,
@@ -43,6 +44,7 @@ class Orders {
     total = json['total'];
     totalBefore = json['total_before'];
     invoicesCount = json['invoices_count'];
+    currency = json['currency'];
 
     status = json['status'];
     cancelationNote = json['cancelation_note'];
@@ -55,6 +57,7 @@ class Orders {
   int? totalBefore;
   int? invoicesCount;
   String? status;
+  String? currency;
   String? cancelationNote;
 
   Map<String, dynamic> toJson() {
@@ -64,6 +67,7 @@ class Orders {
     map['client_image'] = clientImage;
     map['order_number'] = orderNumber;
     map['total'] = total;
+    map['currency'] = currency;
     map['total_before'] = totalBefore;
     map['invoices_count'] = invoicesCount;
     map['cancelation_note'] = cancelationNote;

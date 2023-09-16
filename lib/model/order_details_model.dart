@@ -27,12 +27,16 @@ class Data {
       this.clientLocation, 
       this.clientLatitude, 
       this.clientLongitude, 
-      this.date, 
+      this.currency,
+      this.date,
+      this.status,
       this.invoices,});
 
   Data.fromJson(dynamic json) {
     id = json['id'];
     orderNumber = json['order_number'];
+    currency = json['currency'];
+    status = json['status'];
     total = json['total'];
     clientName = json['client_name'];
     clientImage = json['client_image'];
@@ -51,8 +55,10 @@ class Data {
   int? orderNumber;
   int? total;
   String? clientName;
+  String? currency;
   dynamic clientImage;
   String? clientLocation;
+  String? status;
   double? clientLatitude;
   double? clientLongitude;
   String? date;
@@ -63,6 +69,8 @@ class Data {
     map['id'] = id;
     map['order_number'] = orderNumber;
     map['total'] = total;
+    map['currency'] = currency;
+    map['status'] = status;
     map['client_name'] = clientName;
     map['client_image'] = clientImage;
     map['client_location'] = clientLocation;
@@ -95,6 +103,7 @@ class Invoices {
     priceBefore = json['price_before'];
     priceAfter = json['price_after'];
     total = json['total'];
+    currency = json['currency'];
     quantity = json['quantity'];
     if (json['images'] != null) {
       images = [];
@@ -106,6 +115,7 @@ class Invoices {
   int? id;
   String? name;
   String? type;
+  String? currency;
   int? priceBefore;
   int? priceAfter;
   int? total;
@@ -117,6 +127,7 @@ class Invoices {
     map['id'] = id;
     map['name'] = name;
     map['type'] = type;
+    map['currency'] = currency;
     map['price_before'] = priceBefore;
     map['price_after'] = priceAfter;
     map['total'] = total;

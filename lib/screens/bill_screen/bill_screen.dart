@@ -27,8 +27,7 @@ class BillScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(
-          'الفاتورة',
+        title: Text('الفاتورة',
           style: K.boldBlackText,
         ),
         leading: SizedBox(),
@@ -50,37 +49,55 @@ class BillScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [                    K.sizedboxW,
+
+                    Text( "حالة الطلب",
+                      style: K.boldBlackSmall,
+                    ),
+                    Expanded(child: SizedBox()),
                     Text(
                       order?.data?.orderNumber.toString() ?? "",
-                      style: K.boldBlackSmallText,
-                    ),
-                    K.sizedboxW,
-                    Text(
-                      "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}"
-                      ,style: K.boldBlackSmallText,
-                    ),
-                    // Text(
-                    //   order?.data?.date ?? "",
-                    //   style: K.boldBlackSmallText,
-                    // ),
+                      style: K.boldBlackSmall,
+                    ),                    K.sizedboxW,
+
                   ],
                 ),
                 K.sizedboxH,
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    K.sizedboxW,
+
+                    Text(order?.data?.status.toString()  ?? "",
+                      style: K.boldBlackSmallText,
+                    ),
+                    Expanded(child: SizedBox()),
+
+                    Text(
+                      "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}"
+                      ,style: K.boldBlackSmall,
+                    ),                    K.sizedboxW,
+
+                  ],
+                ),
+                K.sizedboxH,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [                    K.sizedboxW,
+
                     Text(
                       'اسم العميل',
-                      style: K.boldBlackSmallText,
+                      style: K.boldBlackSmall,
                     ),
-                    K.sizedboxW,
+                    Expanded(child: SizedBox()),
                     Text(
                       order?.data?.clientName ?? "",
-                      style: K.boldBlackSmallText,
-                    ),
+                      style: K.boldBlackSmall,
+                    ),                    K.sizedboxW,
+
                   ],
                 ),
                 Container(
@@ -90,7 +107,6 @@ class BillScreen extends StatelessWidget {
                       address:order?.data?.clientLocation??''
                   ),
                 ),
-
                 // Image.asset('assets/images/map.png'),
                 K.sizedboxH,
                 Padding(
@@ -105,14 +121,6 @@ class BillScreen extends StatelessWidget {
                           // height: 50.h,
                           child: Center(child: Text('  ${order?.data?.clientLocation.toString()}'??'')),
                         )
-                        // CustomAddressTextField(
-                        //   width: MediaQuery.of(context).size.width / 1.3.w,
-                        //   hintText: " ".tr,
-                        //   labelText: "ابحث ".tr,
-                        //   onChanged: (String v) {
-                        //     controller.searchController.value = v;
-                        //   },
-                        // ),
                       ):SizedBox(),
                       K.sizedboxH,
                       Row(
@@ -133,16 +141,14 @@ class BillScreen extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount:order?.data?.invoices?.length,
                           itemBuilder: (_, index) {
-                            // controller.total.value +=
-                            //     order?.data?.invoices?[index].priceAfter ?? 0;
                             return CustomBillCard(
                               image: order?.data?.invoices![index].images!.first.imageUrl??'',
-
                               price: order?.data?.invoices?[index].priceBefore
                                               .toString() ??
                                           "",
                               name:order?.data?.invoices?[index].name??'',
                               desc:order?.data?.invoices?[index].type??'',
+                              currency:order?.data?.invoices?[index].currency??'',
                               orderNumber:order?.data?.invoices?[index].quantity.toString()??'',
                               discount: order?.data?.invoices?[index].priceAfter
                                   .toString(),

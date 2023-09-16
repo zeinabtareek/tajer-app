@@ -55,7 +55,7 @@ class OrdersScreen extends StatelessWidget {
                         Opacity(
                           opacity: controller.showOverlay.value ? 0.3 : 1.0,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment:CrossAxisAlignment.center,
                             children: [
                               CustomAddressTextField(
@@ -113,6 +113,7 @@ Obx(() => controller.loading.value?Center(child:CupertinoActivityIndicator())
                                             id: controller.orders[index].id);
                                      print('controller.total.value ${controller.total.value}');
 
+
                                      await    Get.to(() => BillScreen(
                                               order: controller.orderById,
                                        total:controller.total,
@@ -146,7 +147,9 @@ Obx(() => controller.loading.value?Center(child:CupertinoActivityIndicator())
                                               .orders[index].invoicesCount
                                               .toString(),
                                           total: controller.orders[index].total
-                                              .toString(),
+                                              .toString()  ,
+                                          currency: controller.orders[index].currency.toString()??'',
+
                                           totalBefore: controller
                                               .orders[index].totalBefore
                                               .toString(),
@@ -615,7 +618,7 @@ Widget buildSearchResult(context) {
                 .searchedOrder.invoicesCount
                 .toString(),
             total: controller.searchedOrder.total
-                .toString(),
+                .toString()+'${controller.searchedOrder.currency}',
             totalBefore: controller
                 .searchedOrder.totalBefore
                 .toString(),

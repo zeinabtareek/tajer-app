@@ -3,23 +3,17 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-// import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tajer/helpers/cache_helper.dart';
 import 'package:tajer/helpers/local_notification.dart';
 import 'package:tajer/model/notification_model.dart';
 import 'package:tajer/utils/initial_binding.dart';
-import 'package:url_launcher/url_launcher.dart';
 // import 'package:qrscan/qrscan.dart' as scanner;
-
 import 'package:tajer/screens/splash_screen/splash_screen.dart';
 import 'package:tajer/utils/app_constants.dart';
 import 'constants/style.dart';
-import 'helpers/connectivity.dart';
 import 'helpers/get_di.dart' as di;
 import 'package:firebase_core/firebase_core.dart';
-
 import 'model/reprt_model.dart';
 
 NotificationService notificationService = NotificationService();
