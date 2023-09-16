@@ -107,25 +107,25 @@ class CustomDropDown extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: K.mainColor.withOpacity(.088),
-        contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+        contentPadding:   EdgeInsets.symmetric(vertical: 5.h, horizontal: 3.w),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none, // Remove the bottom border
         ),
         // Add margin
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none,
         ),
       ),
       hint: Center(
         child:   Text(
-            hint,
-            style: TextStyle(fontSize: 14, color: K.blackColor),
+            hint
+            ,style:K.blackText
           ),
         // ),
       ),
@@ -150,7 +150,7 @@ class CustomDropDown extends StatelessWidget {
             child: Text(
               value,
               textDirection: TextDirection.ltr,
-              style: TextStyle(fontSize: 14, color: K.blackColor),
+              style: TextStyle(fontSize: 14.sp, color: K.blackColor),
             ),
           ),
         );
@@ -164,7 +164,7 @@ class CustomDropDown extends StatelessWidget {
       onChanged: onChanged,
       onSaved: onSaved,
       buttonStyleData: ButtonStyleData(
-        padding: EdgeInsets.only(right: 8),
+        padding: EdgeInsets.only(right: 8.r),
         decoration: BoxDecoration(
           // borderRadius: BorderRadius.circular(15),
           // color: K.mainColor.withOpacity(.088),
@@ -172,15 +172,15 @@ class CustomDropDown extends StatelessWidget {
       ),
       iconStyleData: IconStyleData(
         icon: Icon(Icons.arrow_drop_down, color: K.blackColor),
-        iconSize: 24,
+        iconSize: 24.sp,
       ),
       dropdownStyleData: DropdownStyleData(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
         ),
       ),
-      menuItemStyleData: const MenuItemStyleData(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+      menuItemStyleData:   MenuItemStyleData(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
       ),
     );
   }

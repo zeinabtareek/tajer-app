@@ -39,7 +39,9 @@ class ReportsScreen extends StatelessWidget {
          // Obx(() =>
              Padding(
                padding: const EdgeInsets.all(8.0),
-               child: CustomDropDown(
+               child:
+
+               CustomDropDown(
                // dropdownValue: controller.dropdownValue.value ?? '',
                // isDropDown: true,
                // text: controller.dropdownValue.value.toString(),
@@ -88,12 +90,14 @@ class ReportsScreen extends StatelessWidget {
                              //         K.lightMainColor ),
                              //   ),
                                child: controller.newTime.value == null
-                                   ? Center(child: Text('من',style:TextStyle(color: K.blackColor)))
+                                   ? Center(child: Text('من',style:K.blackText))
                                    : Center(
                                      child: Text(
                                  "${controller.newTime.value?.year}/${controller.newTime.value?.month}/${controller.newTime.value?.day}",
-                                 style: TextStyle(color: K.blackColor),
-                               ),
+                                 style: TextStyle(color: K.blackColor,
+                                   fontSize: 20.sp,
+                                 ),
+                                     ),
                                    ),
                              ),onTap: ()async{
                              final date = await controller.showCalenderFrom(
@@ -134,7 +138,7 @@ class ReportsScreen extends StatelessWidget {
                                //         K.lightMainColor),
                                //   ),
                                  child: controller.newTimeTo.value == null
-                                     ? Center(child: Text('إلى',style:TextStyle(color: K.blackColor)))
+                                     ? Center(child: Text('إلى',style:K.blackText))
                                      : Center(
                                        child: Text(
                                    "${controller.newTimeTo.value?.year}/${controller.newTimeTo.value?.month}/${controller.newTimeTo.value?.day}",
@@ -166,7 +170,7 @@ class ReportsScreen extends StatelessWidget {
                   size: MediaQuery.of(context).size.width / 1.5.w,
                   height: MediaQuery.of(context).size.width / 11.h,
                   isFramed: false,
-                  fontSize: 25.sp,
+                  fontSize: 20.sp,
                   onPressed: () async {
                     await controller.searchForTheReport(
                         status: controller.dropdownValue.value.toString()??'');

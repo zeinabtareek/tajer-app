@@ -353,6 +353,7 @@ class RecentOrders {
     int? totalBefore;
     String? status;
     String? cancelationNote;
+    String? currency;
     int? invoicesCount;
 
     RecentOrders(
@@ -363,6 +364,7 @@ class RecentOrders {
             this.total,
             this.totalBefore,
             this.status,
+            this.currency,
             this.cancelationNote,
             this.invoicesCount});
 
@@ -373,6 +375,7 @@ class RecentOrders {
         orderNumber = json['order_number']??'';
         total = json['total']??'';
         totalBefore = json['total_before']??'';
+        currency = json['currency']??'';
         status = json['status']??'';
         cancelationNote = json['cancelation_note']??'';
         invoicesCount = json['invoices_count']??'';
@@ -385,6 +388,7 @@ class RecentOrders {
         data['client_image'] = this.clientImage;
         data['order_number'] = this.orderNumber;
         data['total'] = this.total;
+        data['currency'] = this.currency;
         data['total_before'] = this.totalBefore;
         data['status'] = this.status;
         data['cancelation_note'] = this.cancelationNote;

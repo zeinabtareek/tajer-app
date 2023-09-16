@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:tajer/helpers/cache_helper.dart';
@@ -32,7 +34,7 @@ class LoginController extends GetxController {
    return userModel;
 
     } catch (error) {
-      print('error2');
+      print('error2 $error');
     }
 
     isLoadings.value = false;

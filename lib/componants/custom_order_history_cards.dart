@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../constants/style.dart';
@@ -23,7 +24,7 @@ class CustomOrderHistoryCards extends StatelessWidget {
 
 
             Padding(
-      padding:   EdgeInsets.all(8.0),
+      padding:   EdgeInsets.all(8.0.sp),
       child: Column(
         children: [
           K.sizedboxH,
@@ -43,7 +44,7 @@ class CustomOrderHistoryCards extends StatelessWidget {
 
         Container(
             decoration: K.boxDecorationLightGrey,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(10.sp),
         child: Row(
 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
@@ -52,10 +53,10 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(  ' \tمبلغ المبيعات : \t', ),
-            Text(  ' \tحصة المنصة  : \t', ),
-            Text(  ' \tنسبة الشركة من التاجر:', ),
-            Text(  ' \tصافي الربح : \t', ),
+            Text(  ' \tمبلغ المبيعات : \t',style: K.blackText,),
+            Text(  ' \tحصة المنصة  : \t',style: K.blackText,),
+            Text(  ' \tنسبة الشركة من التاجر:',style: K.blackText,),
+            Text(  ' \tصافي الربح : \t',style: K.blackText,),
           ],
         ),
           Column(

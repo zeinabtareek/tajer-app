@@ -56,10 +56,11 @@ static final ColorScheme _customColorScheme = ColorScheme(
   onSecondary: primaryColor,
   onSurface: primaryColor,
 );
-  static final boldBlackText=TextStyle(color:  blackColor,fontWeight: FontWeight.w700,fontSize: 30.sp);
+  static final boldBlackText=TextStyle(color:  blackColor,fontWeight: FontWeight.w700,fontSize: 25.sp);
   static final boldBlackSmallText=TextStyle(color:  blackColor,fontWeight: FontWeight.w600,fontSize: 20.sp);
+  static final blackText=TextStyle(color:  blackColor,fontWeight: FontWeight.w400,fontSize: 15.sp);
   static final boldBlackSmall=TextStyle(color:  blackColor,fontWeight: FontWeight.w600,fontSize: 15.sp);
-  static final redTextStyle=TextStyle(color:  primaryColor,fontWeight: FontWeight.w500,fontSize: 18.sp);
+  static final redTextStyle=TextStyle(color:  primaryColor,fontWeight: FontWeight.w500,fontSize: 15.sp);
   static final smallredTextStyle=TextStyle(color:  primaryColor,fontWeight: FontWeight.w500,fontSize: 13.sp);
   static final whiteTextStyle=TextStyle(color:  whiteColor,fontWeight: FontWeight.w500,fontSize: 18.sp);
 

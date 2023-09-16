@@ -51,6 +51,7 @@ class Provider {
   String? companyName;
   String? password;
   String? address;
+  String? currency;
   String? government;
   double? latitude;
   double? longitude;
@@ -69,6 +70,7 @@ class Provider {
         this.password,
         this.address,
         this.government,
+        this.currency,
         this.latitude,
         this.longitude,
         this.logo,
@@ -86,6 +88,7 @@ class Provider {
     password = json['password'];
     address = json['address'];
     government = json['government'];
+    currency = json['currency'];
     latitude = json['latitude'];
     longitude = json['longitude'];
     logo = json['logo'];
@@ -102,6 +105,7 @@ class Provider {
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['company_name'] = this.companyName;
+    data['currency'] = this.currency;
     data['password'] = this.password;
     data['address'] = this.address;
     data['government'] = this.government;

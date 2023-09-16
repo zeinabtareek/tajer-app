@@ -31,8 +31,10 @@ class SupportScreenController extends BaseController {
     super.dispose();
   }
   sendMessage() async {
-
     await services.sendMessage(message: message.value);
+   onInit();
+
+    update();
 
 
   }

@@ -47,8 +47,8 @@ class SupportScreen extends StatelessWidget {
 
           // )
         ),
-        body: Obx(() => controller.state == ViewState.busy
-        // body: Obx(() => controller.isLoading.value
+        // body: Obx(() => controller.state == ViewState.busy
+        body: Obx(() => controller.isLoading.value
             ?   Center(
                 child: CupertinoActivityIndicator(
                   color: K.primaryColor,
@@ -159,9 +159,10 @@ class SupportScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                controller.sendMessage();
+                              onTap: () async{
+                              await  controller.sendMessage();
                                 controller.onInit();
+
                               },
                               child: Image.asset(
                                 'assets/images/send.png',

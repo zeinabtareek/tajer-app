@@ -20,7 +20,7 @@ class CreditScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100),
+        preferredSize: Size.fromHeight(100.h),
         child: AppBar(
           title: Text(
             'رصيدك',
@@ -41,7 +41,7 @@ class CreditScreen extends StatelessWidget {
                 ))
           ],
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(40),
+            preferredSize: Size.fromHeight(40.h),
             child: Row(
               children: [
                 ...List.generate(
@@ -56,7 +56,7 @@ class CreditScreen extends StatelessWidget {
                               controller.optionsList[index].toString());
                         },
                         child: Container(
-                          height: 40,
+                          height: 40.h,
                           color: Colors.transparent,
                           child: Container(
                             width: double.infinity,
@@ -94,7 +94,7 @@ class CreditScreen extends StatelessWidget {
           () => controller.state == ViewState.busy
               ? Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
+                    padding:   EdgeInsets.only(top: 18.0.h),
                     child: CupertinoActivityIndicator(),
                   ),
                 )
@@ -157,7 +157,7 @@ Widget CreditBody(context,
         Container(
           width: MediaQuery.of(context).size.width,
           // height: MediaQuery.of(context).size.height/7,
-          padding: EdgeInsets.only(right: 10),
+          padding: EdgeInsets.only(right: 10.w),
           color: K.darkRed,
           child: Column(
             children: [
@@ -174,14 +174,14 @@ Widget CreditBody(context,
                   ),
                   Container(
                       width: MediaQuery.of(context).size.width / 3.3.w,
-                      height: MediaQuery.of(context).size.height / 30.w,
+                      // height: MediaQuery.of(context).size.height / 30.h,
                       decoration: BoxDecoration(
                         color: K.semiDarkRed,
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(10.0),
+                        borderRadius:    BorderRadius.only(
+                          topRight: Radius.circular(10.0.r),
                           // Set the desired radius value
                           bottomRight: Radius.circular(
-                              10.0), // Set the desired radius value
+                              10.0.r), // Set the desired radius value
                         ),
                       ),
                       child: Center(

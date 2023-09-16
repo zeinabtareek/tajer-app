@@ -54,7 +54,7 @@ class LogInScreen extends StatelessWidget {
                 size: MediaQuery.of(context).size.width / 1.5.w,
                 height: MediaQuery.of(context).size.width / 9.h,
                 isFramed: false,
-                fontSize: 22.sp,
+                fontSize: 22,
                 onPressed: () async {
     if(controller.connection.connectivity.value==0){
     OverlayHelper.showErrorToast(

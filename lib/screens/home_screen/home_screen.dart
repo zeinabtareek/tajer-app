@@ -46,27 +46,20 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //                   TextButton(onPressed: () async {
-                      // var token;
-                      //
-                      // token = await CacheHelper.getData(key: AppConstants.token);
-                      //                     controller.getHomeData(token);
-                      //                   }, child: Text('mcjc')),
                       GestureDetector(
                         onTap: () {
                           Get.to(() => const CreditScreen());
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width / 1.5.w,
-                          height: MediaQuery.of(context).size.height / 12.w,
-                          // padding: EdgeInsets.only(bottom: 20),
-                          decoration: BoxDecoration(
+                          // height: MediaQuery.of(context).size.height / 12.h,
+                           decoration: BoxDecoration(
                             color: K.darkRed,
-                            borderRadius: const BorderRadius.only(
+                            borderRadius:   BorderRadius.only(
                               topRight: Radius.circular(10.0),
                               // Set the desired radius value
                               bottomRight: Radius.circular(
-                                  10.0), // Set the desired radius value
+                                  10.0.r),
                             ),
                           ),
                           child: Row(
@@ -75,8 +68,9 @@ class HomeScreen extends StatelessWidget {
                               Container(
                                   width:
                                       MediaQuery.of(context).size.width / 3.3.w,
-                                  height:
-                                      MediaQuery.of(context).size.height / 35.w,
+                                      // MediaQuery.of(context).size.width / 3.3.w,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height / 35.h,
                                   decoration: BoxDecoration(
                                     color: K.semiDarkRed,
                                     borderRadius: const BorderRadius.only(
@@ -95,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   )),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding:   EdgeInsets.all(8.0.sp),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -309,9 +303,7 @@ class HomeScreen extends StatelessWidget {
                                           'canceled'
                                           ? false
                                           : true,
-                                      total: controller
-                                          .chart?.recentOrders?[index].total
-                                          .toString(),
+                                      total:  controller .chart!.recentOrders![index].total.toString() +' '+ controller.chart!.recentOrders![index].currency.toString()??'',// ${controller .chart?.recentOrders?[index].currency}
                                       totalBefore: controller.chart
                                           ?.recentOrders?[index].totalBefore
                                           .toString(),
@@ -508,22 +500,23 @@ class CustomSlopText extends StatelessWidget {
     return Stack(
       children: [
         Text(
-          text,
+      ' '+    text+' ',
           style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.normal,
               color: color ?? Colors.red),
         ),
         Positioned(
           top: 10,
-          left: 0,
-          right: 0,
+          left: -10,
+          right: -10,
           child: Container(
-            height: 1,
-            width: 50,
+            // padding: EdgeInsets.all(10),
+            height: 2,
+            width: 66,
             color: Colors.transparent,
             child: Transform.rotate(
-              angle: -45 * 3.141592 / 290,
+              angle: -55 * 4 / 400,
               child: Container(
                 color: Colors.black,
               ),
@@ -543,6 +536,7 @@ class CustomOrdersCard extends StatelessWidget {
   final String? invoicesCount;
   final String? image;
   final String? total;
+  final String? currency;
   final String? note;
   final String? totalBefore;
   final bool? isAccepted;
@@ -556,6 +550,7 @@ class CustomOrdersCard extends StatelessWidget {
       this.total,
       this.invoicesCount,
       this.isAccepted,
+      this.currency,
       this.onAccept,
       this.image,
       this.note,
@@ -571,6 +566,8 @@ class CustomOrdersCard extends StatelessWidget {
         bottom: 18,
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             padding: EdgeInsets.all(5),
@@ -605,37 +602,89 @@ class CustomOrdersCard extends StatelessWidget {
                     // ),
                     ),
                 // K.sizedboxW,
-                Column(
-                  children: [
-                    Text(
-                      clientName ?? "",
-                      style: K.boldBlackSmallText,
-                    ),
-                    K.sizedboxH,
-                    RichText(
-                      text: TextSpan(
-                        text: ' عرض ',
-                        // text: ' عرض $invoicesCount  ',
-                        style: K.redTextStyle,
-                        // children:<InlineSpan> [
-                        children: [
-                          TextSpan(
-                            // text: 'عرض 2 ',
-                            text: ' $total ',
-                            style: K.boldBlackSmallText,
-                            // style:K.redTextStyle,
-                          ),
-                          // K.sizedboxW,
-                          WidgetSpan(
-                            child: CustomSlopText(
-                              text: totalBefore ?? "0.0",
-                              color: K.primaryColor,
+                Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              clientName ?? "",
+                              style: K.boldBlackSmallText,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+
+                             Text(
+                                'عرض',
+                               style: K.redTextStyle,
+                            ),
+
+                          ],
+                        ),
+
+                            Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  ' $total  ',
+                                    style: K.boldBlackSmallText,
+                                ),
+                                Text(
+                                  ' $currency  ',
+                                  style: K.boldBlackSmall,
+                                ),
+                              ],
+                            ),
+
+                            //  Text(
+                            //    totalBefore ?? "0.0",
+                            //    style: TextStyle(color:Colors.grey)
+                            // ),
+                          CustomSlopText(
+                                          text: totalBefore ?? "0.0",
+                                          color: K.primaryColor.withOpacity(.7),
+                                        ),
+
+                          ],
+                        ),
+
+                      K.sizedboxH,
+
+                      // Directionality(
+                      //   textDirection: TextDirection.rtl,
+                      //   child: RichText(
+                      //     text: TextSpan(
+                      //       // text: ' $currency ',
+                      //       text: '  ',
+                      //       // text: ' عرض $invoicesCount  ',
+                      //       style: K.redTextStyle,
+                      //       // children:<InlineSpan> [
+                      //       children: [
+                      //         // WidgetSpan(
+                      //         //   child: CustomSlopText(
+                      //         //     text: totalBefore ?? "0.0",
+                      //         //     color: K.primaryColor,
+                      //         //   ),
+                      //         // ),
+                      //
+                      //
+                      //         TextSpan(
+                      //           // text: 'عرض 2 ',
+                      //           text: ' $total  ',
+                      //           style: K.boldBlackSmallText,
+                      //           // style:K.redTextStyle,
+                      //         ),
+                      //         // K.sizedboxW,
+                      //
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 ),
                 K.sizedboxW,
                 isAccepted == true ? icon! : SizedBox()

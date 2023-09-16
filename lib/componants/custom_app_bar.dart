@@ -24,7 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       title: Obx(() => Text(
             screensWithTitle[controller.activePage.value].last,
-            style: K.boldBlackText,
+            // style: K.boldBlackText,
           )),
       centerTitle: true,
       elevation: 0,
@@ -40,9 +40,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           //     color: K.semiDarkRed.withOpacity(.9),
           //   ),
           // ),
-          const SizedBox(
-            width: 5,
-          ),
+          // const SizedBox(
+          //   width: 5,
+          // ),
           GestureDetector(
             onTap: () {
               // Scaffold.of(context).openDrawer();

@@ -218,7 +218,7 @@ class SettingScreen extends StatelessWidget {
                                   size: MediaQuery.of(context).size.width / 1.5.w,
                                   height: MediaQuery.of(context).size.height / 20.h,
                                   isFramed: false,
-                                  fontSize: 22.sp,
+                                  fontSize: 15.sp,
                                   onPressed: () async {
                                     controller.logOut();
                                   }),
@@ -229,7 +229,7 @@ class SettingScreen extends StatelessWidget {
                                 size: MediaQuery.of(context).size.width / 1.5.w,
                                 height: MediaQuery.of(context).size.height / 20.h,
                                 isFramed: false,
-                                fontSize: 22.sp,
+                                fontSize: 15.sp,
                                 onPressed: () async {
                                   controller.delete();
                                 }),
